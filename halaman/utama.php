@@ -11,6 +11,13 @@ include("../include/_koneksi.php");
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/font-awesome.css">
   <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+  	.jumbotron {
+		  padding-top: 20px !important;
+		  padding-bottom: 20px !important;
+	}
+  </style>
 </head>
 <body>
 	<div class="container-fluid px-0">
@@ -100,29 +107,62 @@ include("../include/_koneksi.php");
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="row">
-							<div class="col-4 col-lg-6">
-								<img class="img-fluid" src="#" id="gambar">
-							</div>
-							<div class="col-8 col-lg-6">
-								<h4 id="nama1"></h4>
-								<p>
-								<span class="font-weight-bold">Deskripsi</span><br>
-								<span id="deskripsi"></span>
-							</p>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-4 col-lg-6">
+									<img class="img-fluid" src="#" id="gambar">
+								</div>
+								<div class="col-8 col-lg-6">
+									<h4 id="nama1"></h4>
+									<p>
+										<span class="font-weight-bold">Deskripsi</span><br>
+										<span id="deskripsi"></span>
+									</p>
+										<div class="helper text-left" style="display: inline-block;">
+											<div class="dot-pulse" style="display: inline-block; margin: 0 20px;" hidden></div>
+											<span></span>
+										</div>
+										<div style="display: inline-block;">
+											<button type="button" class="tombol tombol-teal m-2">Beli & Kembali Belanja</button>
+											<button type="button" class="tombol tombol-teal m-2" id="submitBeli">Tambahkan ke Keranjang</button>
+										</div>								
+								</div>
 							</div>
 						</div>
 					</div>
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<div class="helper text-left" style="display: inline-block;">
-							<div class="dot-pulse" style="display: inline-block; margin: 0 20px;" hidden></div>
-							<span></span>
-						</div>
-						<div style="display: inline-block;">
-							<button type="button" class="tombol tombol-teal m-2">Beli & Kembali Belanja</button>
-							<button type="button" class="tombol tombol-teal m-2" id="submitBeli">Tambahkan ke Keranjang</button>
-						</div>
+						<div class="container-fluid">
+							<!-- Section untuk menampilkan komentar semua user -->
+							<div class="row">
+								<div class="col-2 text-center">
+									<!-- Untuk Menampilkan gambar logo user -->
+									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
+									<small class="text-muted">Nama User</small>
+								</div>
+								<div class="col-10">
+									<!-- Untuk menampilkan komentar user menggunakan jumbotron -->
+									<div class="jumbotron">
+									  <div class="container">
+									    <p><i>This is a modified jumbotron that occupies the entire horizontal space of its parent.</i></p>
+									  </div>
+									</div>
+								</div>
+							</div>
+
+							<hr class="mb-4">
+
+							<!-- Section untuk menampilkan kolom untuk input komentar -->
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+									    <label for="commentText">Apa komentar anda tentang desain ini ?</label>
+									    <textarea class="form-control" id="commentText" rows="1"></textarea>
+									    <button type="button" id="" class="komen tombol tombol-teal mt-2">Komen</button>
+									</div>		
+								</div>
+							</div>	
+						</div>			
 					</div>
 				</div>
 			</div>
@@ -138,6 +178,13 @@ include("../include/_koneksi.php");
 </html>
 
 <script>
+
+	$(document).on('click', '.komen', function(e) {
+		e.preventDefault();
+		var idProduk = $(this).prop("id");
+		var idKonsumen = 
+	});
+
 	var stat = "";
 	var beli = "";
 	
@@ -161,6 +208,7 @@ include("../include/_koneksi.php");
 					$("#deskripsi").text(respon.deskripsi);
 					$("#stok").val(respon.stok);
 					$("#popUpBeli").modal("show");
+					$(".komen").prop("id", kode);
 				}
 			}
 		});
