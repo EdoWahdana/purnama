@@ -23,12 +23,18 @@ else {
 			$kdTransaksi = "TRANS0000001";
 		}
 
-		$query = mysqli_query($conn, "INSERT INTO transaksi(idTransaksi, idKonsumen, kdTransaksi, status) VALUES(null, '$idKonsumen', '$kdTransaksi', 'keranjang')");
+		//Membuat format tanggal dan jam untuk diinput ke tabel transaksi
+		$date = explode(" ", date('Y-m-d H:i:s'));
+		$tanggal = $date[0];
+		$jam = $date[1];
+
+		$query = mysqli_query($conn, "INSERT INTO transaksi(idTransaksi, tanggal, jam, idKonsumen, kdTransaksi, status) VALUES(null, '$tanggal', '$jam', '$idKonsumen', '$kdTransaksi', 'keranjang')");
 		if ($query) {
 			$respon["status"] = "Berhasil";
 			$respon["kdTransaksi"] = $kdTransaksi;
-		} else
-			$respon["status"] = "Gagal Menambahkan Transaksi";
+		} else {
+			$respon["status"] = mysqli_error($conn);
+		}
 	}
 }
 
