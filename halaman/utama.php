@@ -130,8 +130,14 @@ include("../include/_koneksi.php");
 							</div>
 						</div>
 					</div>
+
+					<!-- Looping untuk menampilkan komentar -->
+					<?php
+						$showKomentar = mysqli_query($conn, "SELECT * FROM komentar WHERE idProduk=")
+					?>
+
 					<!-- Modal footer -->
-					<div class="modal-footer">
+					<dow iv class="modal-footer">
 						<div class="container-fluid">
 							<!-- Section untuk menampilkan komentar semua user -->
 							<div class="row">
@@ -179,14 +185,15 @@ include("../include/_koneksi.php");
 
 <script>
 
-	$(document).on('click', '.komen', function(e) {
+	$(document).on("click", ".komen", function(e) {
 		e.preventDefault();
-		var idProduk = $(this).prop('id');
+
+		var idProduk = $("#kode").val();
 		var usernameKonsumen = "<?= $_SESSION['username']; ?>";
-		var isiKomentar = $('textarea#teksKomen');
+		var isiKomentar = $("#teksKomen").val();
 		var createdAt = "<?= date('Y-m-d H:i:s') ?>";
 
-		if(isiKomentar === "") return;
+		if(isiKomentar == "") return;
 
 		$.ajax({
 			type: "POST",
@@ -201,10 +208,16 @@ include("../include/_koneksi.php");
 			success: function(respon) {
 				if(respon.status == "Berhasil") {
 					window.location.reload();
+				} else {
+					alert(respon.status);
+				}
+			},
+			error: function(XMLHttpRequest, respon, error) {
+				if(error) {
+					alert(error + " DAN " + respon.status);
 				}
 			}
 		});
-
 	});
 
 	var stat = "";

@@ -1,7 +1,5 @@
 <?php
-	include('/_koneksi.php');
-
-	$respon['status'] = '';
+	include('_koneksi.php');
 
 	$idProduk = $_POST['idProduk'];
 	$usernameKonsumen = $_POST['usernameKonsumen'];
@@ -15,9 +13,13 @@
 	$insertExec = mysqli_query($conn, $insertQuery);
 
 	//Cek jika insert berhasil
-	if($query) {
+	if($insertExec) {
 		$respon['status'] = "Berhasil";
 		$respon['idProduk'] = $idProduk;
+	} else {
+		$respon['status'] = "Gagal karena : " . mysqli_error($conn);
 	}
 
+
+	echo json_encode($respon);
 ?>
