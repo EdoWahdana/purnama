@@ -138,13 +138,13 @@ include("../include/_koneksi.php");
 								<div class="col-2 text-center">
 									<!-- Untuk Menampilkan gambar logo user -->
 									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
-									<small class="text-muted">Nama User</small>
+									<small class="text-muted" id="usernameKomentar">Nama User</small>
 								</div>
 								<div class="col-10">
 									<!-- Untuk menampilkan komentar user menggunakan jumbotron -->
 									<div class="jumbotron">
 									  <div class="container">
-									    <p><i>This is a modified jumbotron that occupies the entire horizontal space of its parent.</i></p>
+									    <p id="isiKomentar"></p>
 									  </div>
 									</div>
 								</div>
@@ -157,7 +157,7 @@ include("../include/_koneksi.php");
 								<div class="col">
 									<div class="form-group">
 									    <label for="commentText">Apa komentar anda tentang desain ini ?</label>
-									    <textarea class="form-control" id="commentText" rows="1"></textarea>
+									    <textarea class="form-control" id="teksKomen" rows="1"></textarea>
 									    <button type="button" id="" class="komen tombol tombol-teal mt-2">Komen</button>
 									</div>		
 								</div>
@@ -181,8 +181,30 @@ include("../include/_koneksi.php");
 
 	$(document).on('click', '.komen', function(e) {
 		e.preventDefault();
-		var idProduk = $(this).prop("id");
-		var idKonsumen = 
+		var idProduk = $(this).prop('id');
+		var usernameKonsumen = "<?= $_SESSION['username']; ?>";
+		var isiKomentar = $('textarea#teksKomen');
+		var createdAt = "<?= date('Y-m-d H:i:s') ?>";
+
+		if(isiKomentar === "") return;
+
+		$.ajax({
+			type: "POST",
+			url: "../include/inputKomentar.php",
+			data: {
+				idProduk: idProduk,
+				usernameKonsumen: usernameKonsumen,
+				isiKomentar: isiKomentar,
+				createdAt: createdAt
+			},
+			dataType: "JSON",
+			success: function(respon) {
+				if(respon.status == "Berhasil") {
+					window.location.reload();
+				}
+			}
+		});
+
 	});
 
 	var stat = "";
