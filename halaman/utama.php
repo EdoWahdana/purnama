@@ -131,18 +131,15 @@ include("../include/_koneksi.php");
 						</div>
 					</div>
 
-					<!-- Looping untuk menampilkan komentar -->
-					<?php
-						$showKomentar = mysqli_query($conn, "SELECT * FROM komentar WHERE idProduk=")
-					?>
+					
 
 					<!-- Modal footer -->
-					<dow iv class="modal-footer">
-						<div class="container-fluid">
+					<div iv class="modal-footer">
+						<div id="tempatKomen" class="container-fluid">
 							<!-- Section untuk menampilkan komentar semua user -->
-							<div class="row">
+							<div id="bagianKomen" class="row">
 								<div class="col-2 text-center">
-									<!-- Untuk Menampilkan gambar logo user -->
+									Untuk Menampilkan gambar logo user
 									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
 									<small class="text-muted" id="usernameKomentar">Nama User</small>
 								</div>
@@ -184,6 +181,10 @@ include("../include/_koneksi.php");
 </html>
 
 <script>
+
+	$(document).ready(function() {
+		
+	});
 
 	$(document).on("click", ".komen", function(e) {
 		e.preventDefault();
@@ -227,6 +228,7 @@ include("../include/_koneksi.php");
 		beli = "beli produk";
 		var tombol = $(this);
 		var kode = $(this).prop("id");
+		var divKomentar = $('')
 		$.ajax({
 			type: "POST",
 			url: "../include/readProduk.php",
@@ -245,9 +247,24 @@ include("../include/_koneksi.php");
 					$("#popUpBeli").modal("show");
 					$(".komen").prop("id", kode);
 				}
+				$.ajax({
+					type: "POST",
+					url: "../include/fungsiKomentar.php",
+					data: {
+						kode: $('#kode').val()
+					},
+					dataType: "JSON",
+					success: function(respon) {
+						if(respon.status == "Berhasil") {
+							alert(respon.status);
+						}
+					}
+				});
 			}
 		});
 	});
+
+
 	$("button[name='tukarPoin[]']").on("click", function() {
 		beli = "tukar poin";
 		var tombol = $(this);
