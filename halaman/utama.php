@@ -139,15 +139,17 @@ include("../include/_koneksi.php");
 							<!-- Section untuk menampilkan komentar semua user -->
 							<div id="bagianKomen" class="row">
 								<div class="col-2 text-center">
-									Untuk Menampilkan gambar logo user
+									<!-- Untuk Menampilkan gambar logo user -->
 									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
-									<small class="text-muted" id="usernameKomentar">Nama User</small>
+									<small class="text-muted" id="usernameKonsumen"></small>
+									
 								</div>
 								<div class="col-10">
 									<!-- Untuk menampilkan komentar user menggunakan jumbotron -->
 									<div class="jumbotron">
 									  <div class="container">
 									    <p id="isiKomentar"></p>
+									    <small><p id="waktuKomentar" class="text-muted"></p></small>
 									  </div>
 									</div>
 								</div>
@@ -181,10 +183,6 @@ include("../include/_koneksi.php");
 </html>
 
 <script>
-
-	$(document).ready(function() {
-		
-	});
 
 	$(document).on("click", ".komen", function(e) {
 		e.preventDefault();
@@ -256,8 +254,14 @@ include("../include/_koneksi.php");
 					dataType: "JSON",
 					success: function(respon) {
 						if(respon.status == "Berhasil") {
-							alert(respon.status);
+							$('#isiKomentar').text(respon.isiKomentar);
+							$('#usernameKonsumen').text(respon.usernameKonsumen);
+							$('#waktuKomentar').text(respon.createdAt);
+							console.log(respon);
 						}
+					},
+					error: function(XMLHttpRequest, respon, error) {
+						console.log(error);
 					}
 				});
 			}

@@ -45,7 +45,7 @@ else {
 	if ($_FILES["gambar"]["error"] == 0) {
 		$cekGambar = getimagesize($_FILES["gambar"]["tmp_name"]);
 		if($cekGambar !== false) {
-			
+			$valid = true;
 		} else {
 			$valid = false;
 			$respon["status"] = "File bukan gambar";

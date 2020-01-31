@@ -41,7 +41,7 @@ if (mysqli_num_rows($query) > 0) {
 								<th>No</th>
 								<th>Nama Produk</th>
 								<th>Berat</th>
-								
+								<th style="width:150px">Ukuran</th>
 								<th>Harga</th>
 								<th>Total</th>
 								<th>Hapus</th>
@@ -65,9 +65,17 @@ if (mysqli_num_rows($query) > 0) {
 									echo "<tr>
 									<td>$no</td>
 									<td>$dataProduk[namaProduk]</td>
-									<td>" . konversiBerat($dataProduk["berat"]) . "</td>
+									<td>" . konversiBerat($dataProduk["berat"]) . "</td>";
 									
-									<td>Rp " . number_format($dataProduk["harga"], 0, ".", ".") . "</td>
+									$queryKategori = mysqli_query($conn, "SELECT idKategori FROM produk WHERE idProduk='$data[idProduk]'");
+									$kategori = mysqli_fetch_assoc($queryKategori);
+										if($kategori['idKategori'] == 6) {
+											echo "<td><input type='text' id='panjang' size='1' placeholder='P'> x <input type='text' id='lebar' size='1' placeholder='L'</td>";
+										} else {
+											echo "<td> - </td>";
+										}
+
+									echo "<td>Rp " . number_format($dataProduk["harga"], 0, ".", ".") . "</td>
 									<td>Rp " . number_format($totalHarga, 0, ".", ".") . "</td>
 									<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td>
 									</tr>";
