@@ -133,9 +133,11 @@ include("../include/_koneksi.php");
 
 					
 
+
 					<!-- Modal footer -->
 					<div iv class="modal-footer">
 						<div id="tempatKomen" class="container-fluid">
+							<b class="mb-4">Top Komentar Pengguna</b>
 							<!-- Section untuk menampilkan komentar semua user -->
 							<div id="bagianKomen" class="row">
 								<div class="col-2 text-center">

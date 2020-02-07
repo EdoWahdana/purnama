@@ -28,7 +28,7 @@ else {
 		$tanggal = $date[0];
 		$jam = $date[1];
 
-		$query = mysqli_query($conn, "INSERT INTO transaksi(idTransaksi, tanggal, jam, idKonsumen, kdTransaksi, status) VALUES(null, '$tanggal', '$jam', '$idKonsumen', '$kdTransaksi', 'keranjang')");
+		$query = mysqli_query($conn, "INSERT INTO transaksi(idTransaksi, tanggal, jam, idKonsumen, kdTransaksi, idKurir, idOngkir, status) VALUES(null, '$tanggal', '$jam', '$idKonsumen', '$kdTransaksi', '1', '4', 'keranjang')");
 		if ($query) {
 			$respon["status"] = "Berhasil";
 			$respon["kdTransaksi"] = $kdTransaksi;

@@ -27,6 +27,13 @@ $nmKategori = $data["nmKategori"];
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="../css/font-awesome.css">
   <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+  	.jumbotron {
+		  padding-top: 10px !important;
+		  padding-bottom: 3px !important;
+	}
+  </style>
 </head>
 <body>
 	<div class="container-fluid px-0">
@@ -54,6 +61,58 @@ $nmKategori = $data["nmKategori"];
 							<span class="font-weight-bold">Deskripsi</span><br>
 							<?php echo nl2br($deskripsi); ?>
 						</p>
+
+						<p>
+							<span class="font-weight-bold">Komentar Pengguna</span><br>
+						</p>
+
+						<!-- Tempat Kolom Komentar -->
+						<div id="tempatKomen" class="container-fluid">
+
+
+							<!-- Query untuk melakukan read koemntar dan looping hasilnya -->
+							<?php
+								$query = mysqli_query($conn, "SELECT * FROM komentar WHERE idProduk='$id'");
+								if(mysqli_num_rows($query) > 0){
+									while($komentar = mysqli_fetch_assoc($query)){
+							?>
+							<!-- Section untuk menampilkan komentar semua user -->
+							<div id="bagianKomen" class="row">
+								<div class="col-2 text-center">
+									<!-- Untuk Menampilkan gambar logo user -->
+									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
+									<small class="text-muted" id="usernameKonsumen"><?= $komentar['usernameKonsumen'] ?></small>
+									
+								</div>
+								<div class="col-10">
+									<!-- Untuk menampilkan komentar user menggunakan jumbotron -->
+									<div class="jumbotron">
+									  <div class="container">
+									    <p id="isiKomentar"><?= $komentar['isiKomentar'] ?></p>
+									    <small><p id="waktuKomentar" class="text-muted"><?= $komentar['createdAt'] ?></p></small>
+									  </div>
+									</div>
+								</div>
+							</div>
+
+							<?php
+									}
+								}
+							?>
+
+						
+							<!-- Section untuk menampilkan kolom untuk input komentar -->
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+									    <label for="commentText">Apa komentar anda tentang desain ini ?</label>
+									    <textarea class="form-control" id="teksKomen" rows="1"></textarea>
+									    <button type="button" id="inputKomentar" class="komen tombol tombol-teal mt-2">Komen</button>
+									</div>		
+								</div>
+							</div>	
+						</div>	
+
 						<div class="text-right mt-5">
 							<?php if ($_SESSION["username"] == "") { ?>
 							<a href="login.php" class="tombol tombol-teal">Log In Untuk Pesan</a>
@@ -67,6 +126,8 @@ $nmKategori = $data["nmKategori"];
 		</div>
 		<?php include("_footer.php"); ?>
 	</div>
+
+
 	<!-- The Modal -->
 	<div class="modal fade" id="popUpBeli">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
@@ -97,14 +158,16 @@ $nmKategori = $data["nmKategori"];
 						<div class="dot-pulse" style="display: inline-block; margin: 0 20px;" hidden></div>
 						<span></span>
 					</div>
-          <div style="display: inline-block;">
-            <button type="submit" class="tombol tombol-teal m-2">Kembali Belanja</button>
-            <button type="submit" class="tombol tombol-teal m-2" id="submitBeli">Tambahkan ke Keranjang/Beli</button>
-          </div>
+			        <div style="display: inline-block;">
+			            <button type="submit" class="tombol tombol-teal m-2">Kembali Belanja</button>
+			            <button type="submit" class="tombol tombol-teal m-2" id="submitBeli">Tambahkan ke Keranjang/Beli</button>
+			        </div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
   <script src="../js/jquery-3.3.1.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.js"></script>
@@ -114,8 +177,37 @@ $nmKategori = $data["nmKategori"];
 </html>
 
 <script>
+
 	var stat = "";
 	
+	$("#inputKomentar").on("click", function() {
+		var idProduk = "<?= $id ?>";
+		var usernameKonsumen = "<?= $_SESSION['username'] ?>";
+		var isiKomentar = $("#teksKomen").val();
+		var createdAt = "<?= date('Y-m-d H:i:s') ?>";
+
+		if(isiKomentar == "") return;
+
+		$.ajax({
+			type: "POST",
+			url: "../include/inputKomentar.php",
+			data : {
+				idProduk: idProduk,
+				usernameKonsumen: usernameKonsumen,
+				isiKomentar: isiKomentar,
+				createdAt: createdAt
+			},
+			dataType: "JSON",
+			success: function(respon) {
+				if(respon.status == "Berhasil")
+					window.location.reload();
+			},
+			error: function(XMLHttpRequest, respon, error){
+				console.log("Error karena " + error + " Respon : " + respon);
+			}
+		});		
+	});
+
 	$("#submitBeli").prev().on("click", function() {
 		var stok = <?php echo $stok; ?>;
 		var id = "<?php $_SESSION["username"]; ?>";
