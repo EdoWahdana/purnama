@@ -36,18 +36,19 @@ if (mysqli_num_rows($query) > 0) {
 				</div>
 				<div class="table-responsive-lg">
 					<table class="table table-sm">
-						<thead>
+						<thead class="text-center">
 							<tr>
 								<th>No</th>
 								<th>Nama Produk</th>
 								<th>Berat</th>
-								<th>Qty</th>
+								<th>Ukuran</th>
 								<th>Harga</th>
+								<th>Qty</th>
 								<th>Total</th>
 								<th>Hapus</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="text-center">
 							<?php
 							$query = mysqli_query($conn, "SELECT * FROM tblorder INNER JOIN transaksi ON tblorder.kdTransaksi=transaksi.kdTransaksi WHERE tblorder.idKonsumen='$_SESSION[username]' AND transaksi.status='keranjang' ORDER BY idOrder");
 							if (mysqli_num_rows($query) > 0) {
@@ -65,7 +66,20 @@ if (mysqli_num_rows($query) > 0) {
 									echo "<tr>
 									<td>$no</td>
 									<td>$dataProduk[namaProduk]</td>
-									<td>" . konversiBerat($dataProduk["berat"]) . "</td>
+									<td style='display:none'><input type='text' name='berat[]' id='berat' value='$dataProduk[berat]' hidden></td>
+									<td>" .konversiBerat($dataProduk['berat']). "</td>";									
+										
+										// Menampilkan kolom input panjang dan lebar untuk produk spanduk
+										$queryKategori = mysqli_query($conn, "SELECT idKategori FROM produk where idProduk='$data[idProduk]' ");
+										$kategori = mysqli_fetch_assoc($queryKategori);
+										if($kategori['idKategori'] == 6) {
+											echo "<td><input type='text' id='panjang' size='1' placeholder='P'> x <input type='text' id='lebar' size='1' placeholder='L'</td>";
+										} else {
+											echo "<td> - </td>";
+										}
+
+									echo "
+									<td>Rp " . number_format($dataProduk["harga"], 0, ".", ".") . "</td>
 									<td>
 										<div class='input-group'>
 											<div class='input-group-prepend'>
@@ -78,7 +92,6 @@ if (mysqli_num_rows($query) > 0) {
 											</div>
 										</div>
 									</td>
-									<td>Rp " . number_format($dataProduk["harga"], 0, ".", ".") . "</td>
 									<td>Rp " . number_format($totalHarga, 0, ".", ".") . "</td>
 									<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td>
 									</tr>";
@@ -114,7 +127,8 @@ if (mysqli_num_rows($query) > 0) {
 <script>
 	$("input[name='qty[]']").on("keyup blur change", function() {
 		cekNilai($(this));
-		totalHarga($(this), $(this).next());
+		totalHarga($(this), $(this).prev());
+		totalBerat($(this), $(this).prev().prev().prev());
 	});
 	
 	$("button[name='tambah[]']").on("click", function() {
@@ -123,6 +137,7 @@ if (mysqli_num_rows($query) > 0) {
 		$(qty).val(nilai + 1);
 		cekNilai(qty);
 		totalHarga(qty, qty.next());
+		totalBerat(qty, qty.parent().parent().prev().prev().prev().prev().children());
 	});
 	$("button[name='kurang[]']").on("click", function() {
 		var qty = $(this).parent().next();
@@ -130,6 +145,7 @@ if (mysqli_num_rows($query) > 0) {
 		$(qty).val(nilai - 1);
 		cekNilai(qty);
 		totalHarga(qty, qty.next());
+		totalBerat(qty, qty.parent().parent().prev().prev().prev().prev().children());
 	});
 	
 	$("button[name='hapus[]']").on("click", function() {
@@ -171,11 +187,28 @@ if (mysqli_num_rows($query) > 0) {
 		if (qty.val() < 1)
 			qty.val(1);
 	}
+	function konversiBerat(berat) {
+		var satuan;
+		if (berat >= 1000) {
+			berat = berat / 1000;
+			satuan = "kg";
+		} else {
+			satuan = "gram"
+		}
+		var hasilBerat = berat + " " + satuan;
+		return hasilBerat;
+	}
+	function totalBerat(qty, beratAwal) {
+		var jumlahBarang = qty.val();
+		var berat = parseInt(beratAwal.val());
+		var beratTotal = jumlahBarang * berat;
+		beratAwal.parent().next().text(konversiBerat(beratTotal));
+	}
 	function totalHarga(q, h) {
 		var qty = q.val();
 		var harga = h.val();
 		var totalHarga = qty * harga;
-		q.parent().parent().next().next().text("Rp " + totalHarga.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.'));
+		q.parent().parent().next().text("Rp " + totalHarga.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.'));
 	}
 	function updateOrder() {
 		$.ajax({
@@ -195,5 +228,5 @@ if (mysqli_num_rows($query) > 0) {
 			}
 		});
 	}
-	
+	 
 </script>

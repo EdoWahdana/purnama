@@ -8,7 +8,7 @@
 			<?php } ?>
 			<?php if ($_SESSION["login"] and $_SESSION["akses"] == "Konsumen") { ?>
 			<li>
-				<a href="keranjang.php" class="keranjang">
+				<a href="keranjang1.php" class="keranjang">
 					<i class="fas fa-shopping-cart fa-2x"></i>
 					<span>
 						<?php
