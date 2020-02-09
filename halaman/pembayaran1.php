@@ -248,6 +248,7 @@ if (mysqli_num_rows($query) > 0) {
 			$("#alamat").text($("#alamatLengkap").val() + ", " + $("#desa").val() + ", " + $("#kecamatan").val() + ", " + $("#kabupaten").val() + ", " + $("#provinsi").val());
 		$("#fieldAlamat").prop("hidden", true);
 	});
+	
 	$("#submitBayar").on("click", function() {
 		if ($("#gambar").val() != "") {
 			$(this).prop("disabled", true);

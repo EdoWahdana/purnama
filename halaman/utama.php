@@ -137,9 +137,16 @@ include("../include/_koneksi.php");
 					<!-- Modal footer -->
 					<div iv class="modal-footer">
 						<div id="tempatKomen" class="container-fluid">
-							<b class="mb-4">Top Komentar Pengguna</b>
+							<div class="row pb-3">
+								<div class="col-6">
+									<b>Top Komentar Pengguna</b>
+								</div>
+								<div class="col-6 text-right">
+									<a id="produk" class="tombol teal pl-4">Lihat Detail Barang >>> </a>
+								</div>
+							</div>
 							<!-- Section untuk menampilkan komentar semua user -->
-							<div id="bagianKomen" class="row">
+							<div id="bagianKomen" class="row mt-2">
 								<div class="col-2 text-center">
 									<!-- Untuk Menampilkan gambar logo user -->
 									<img src="../gambar/user.png" class="img-thumbnail" width="80px">
@@ -155,20 +162,7 @@ include("../include/_koneksi.php");
 									  </div>
 									</div>
 								</div>
-							</div>
-
-							<hr class="mb-4">
-
-							<!-- Section untuk menampilkan kolom untuk input komentar -->
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-									    <label for="commentText">Apa komentar anda tentang desain ini ?</label>
-									    <textarea class="form-control" id="teksKomen" rows="1"></textarea>
-									    <button type="button" id="" class="komen tombol tombol-teal mt-2">Komen</button>
-									</div>		
-								</div>
-							</div>	
+							</div>							
 						</div>			
 					</div>
 				</div>
@@ -185,6 +179,9 @@ include("../include/_koneksi.php");
 </html>
 
 <script>
+
+	var stat = "";
+	var beli = "";
 
 	$(document).on("click", ".komen", function(e) {
 		e.preventDefault();
@@ -221,9 +218,13 @@ include("../include/_koneksi.php");
 		});
 	});
 
-	var stat = "";
-	var beli = "";
-	
+	$("#produk").on("click", function() {
+		var idProduk = $("#kode").val();
+		var currentUrl = $(location).attr("href");
+		var produkUrl = currentUrl.replace("utama.php", "produk.php?id=" + idProduk);
+		window.location = produkUrl;
+	});
+
 	$("button[name='beli[]']").on("click", function() {
 		beli = "beli produk";
 		var tombol = $(this);

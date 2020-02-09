@@ -101,6 +101,8 @@ $nmKategori = $data["nmKategori"];
 							?>
 
 						
+							<?php if ($_SESSION["username"] !== "") { ?>
+
 							<!-- Section untuk menampilkan kolom untuk input komentar -->
 							<div class="row">
 								<div class="col">
@@ -111,6 +113,9 @@ $nmKategori = $data["nmKategori"];
 									</div>		
 								</div>
 							</div>	
+
+							<?php } ?>
+
 						</div>	
 
 						<div class="text-right mt-5">
