@@ -45,7 +45,7 @@ if (mysqli_num_rows($query) > 0) {
 	<div class="container-fluid px-0">
 		<?php include("_menu.php"); ?>
 		<div class="konten">
-			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 75%; border-bottom: 5px solid teal;">
+			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 85%; border-bottom: 5px solid teal;">
 				<?php if ($_SESSION["akses"] == "Konsumen") { ?>
 				<a href="data_transaksi.php" class="tombol tombol-teal mb-3"><i class="fas fa-chevron-circle-left"></i> Kembali</a>
 				<?php } elseif ($_SESSION["akses"] == "Admin") { ?>
@@ -93,7 +93,7 @@ if (mysqli_num_rows($query) > 0) {
 				</div>	
 				
 				<div class="table-responsive-lg mt-4">
-					<table class="table table-sm">
+					<table class="table table-sm text-center">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -103,6 +103,7 @@ if (mysqli_num_rows($query) > 0) {
 								<th>Qty</th>
 								<th>Harga</th>
 								<th>Total</th>
+								<th>Desain Konsumen</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -124,6 +125,7 @@ if (mysqli_num_rows($query) > 0) {
 								<td>$data[qty]</td>
 								<td>Rp " . number_format($data["harga"], 0, ".", ".") . "</td>
 								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>
+								<td><a href='../gambar/desainOrder/$data[desain]' class='badge badge-success' download><small>Download Desain</small></a></td>
 								</tr>";
 								$no++;
 							}
