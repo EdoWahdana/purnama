@@ -135,7 +135,7 @@ include("../include/_koneksi.php");
 	$("#pilihGambar").on("click", function() {
 		$("#gambar").click();
 	});
-	
+	 
 	$("#gambar").on("change", function() {
 		if (this.files && this.files[0]) {
 			var reader = new FileReader();
@@ -145,6 +145,7 @@ include("../include/_koneksi.php");
 				$("#pilihGambar div").prop("hidden", true);
 			}
 			reader.readAsDataURL(this.files[0]);
+			console.log(this.files[0]);
 		}
 	});
 	

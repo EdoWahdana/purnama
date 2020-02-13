@@ -181,6 +181,10 @@ a:hover {
 	background-color: darkred;
 	color: white;
 }
+.tombol-pale {
+  background-color: 0202024f;
+  color: black;
+}
 
 .dot-pulse {
   position: relative;

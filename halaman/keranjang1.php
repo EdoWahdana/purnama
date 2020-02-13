@@ -23,7 +23,7 @@ if (mysqli_num_rows($query) > 0) {
 	<div class="container-fluid px-0">
 		<?php include("_menu.php"); ?>
 		<div class="konten">
-			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 75%; border-bottom: 5px solid teal;">
+			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 85%; border-bottom: 5px solid teal;">
 				<a href="utama.php" class="tombol tombol-teal mb-3"><i class="fas fa-chevron-circle-left"></i> Kembali</a>
 				<h4 class="mb-4">Keranjang Belanja</h4>
 				<div class="row mb-3">
@@ -45,6 +45,7 @@ if (mysqli_num_rows($query) > 0) {
 								<th>Harga</th>
 								<th>Qty</th>
 								<th>Total</th>
+								<th>Desain</th>
 								<th>Hapus</th>
 							</tr>
 						</thead>
@@ -64,6 +65,7 @@ if (mysqli_num_rows($query) > 0) {
 										$qty = $data["qty"];
 									
 									echo "<tr>
+									<td id='idorder' style='display:none'>$data[idOrder]</td>
 									<td>$no</td>
 									<td>$dataProduk[namaProduk]</td>
 									<td style='display:none'><input type='text' name='berat[]' id='berat' value='$dataProduk[berat]' hidden></td>
@@ -92,8 +94,16 @@ if (mysqli_num_rows($query) > 0) {
 											</div>
 										</div>
 									</td>
-									<td>Rp " . number_format($totalHarga, 0, ".", ".") . "</td>
-									<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td>
+									<td>Rp " . number_format($totalHarga, 0, ".", ".") . "</td>";
+
+									// Menampilkan tombol upload jika desain masih kosong dan menampilkan gambar jika sudah terdapat data desain
+									if($data['desain'] == '' ||  $data['desain'] == null) {
+										echo "<td><a href='upload_desain.php?id=$data[idOrder]' class='tombol tombol-pale'><i class='fas fa-upload'></i></a></td>";
+									} else {
+										echo "<td><img class='img-fluid' width='100' src='../gambar/desainOrder/" .$data['desain']. "'></td>";
+									}
+									
+									echo "<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td>
 									</tr>";
 									$no++;
 								}
@@ -117,7 +127,6 @@ if (mysqli_num_rows($query) > 0) {
 		<?php include("_footer.php"); ?>
 	</div>
   <script src="../js/jquery-3.3.1.js"></script>
-  <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.js"></script>
   <script src="../js/font-awesome.js"></script>
   <script src="../js/misc.js"></script>
@@ -125,6 +134,7 @@ if (mysqli_num_rows($query) > 0) {
 </html>
 
 <script>
+
 	$("input[name='qty[]']").on("keyup blur change", function() {
 		cekNilai($(this));
 		totalHarga($(this), $(this).prev());
@@ -146,6 +156,8 @@ if (mysqli_num_rows($query) > 0) {
 		cekNilai(qty);
 		totalHarga(qty, qty.next());
 		totalBerat(qty, qty.parent().parent().prev().prev().prev().prev().children());
+		var tes = $('#keranjang td').first().text();
+		console.log(tes);
 	});
 	
 	$("button[name='hapus[]']").on("click", function() {

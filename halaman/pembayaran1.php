@@ -126,7 +126,7 @@ if (mysqli_num_rows($query) > 0) {
 				</p>               
 				<p>Nomor Order: <?php echo $id; ?></p>
 				<div class="table-responsive-lg mt-4">
-					<table class="table table-sm">
+					<table class="table table-sm text-center">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -136,6 +136,7 @@ if (mysqli_num_rows($query) > 0) {
 								<th>Qty</th>
 								<th>Harga</th>
 								<th>Total</th>
+								<th>Desain Konsumen</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -157,6 +158,7 @@ if (mysqli_num_rows($query) > 0) {
 								<td>$data[qty]</td>
 								<td>Rp " . number_format($data["harga"], 0, ".", ".") . "</td>
 								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>
+								<td><img class='img-fluid' width='50' src='../gambar/desainOrder/" .$data['desain']. "'></td>
 								</tr>";
 								$no++;
 							}
