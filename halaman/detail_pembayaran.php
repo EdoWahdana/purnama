@@ -125,7 +125,7 @@ if (mysqli_num_rows($query) > 0) {
 								<td>$data[qty]</td>
 								<td>Rp " . number_format($data["harga"], 0, ".", ".") . "</td>
 								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>
-								<td><a href='../gambar/desainOrder/$data[desain]' class='badge badge-success' download><small>Download Desain</small></a></td>
+								<td><a href='../gambar/desainOrder/$data[desain]' class='badge badge-success' download>Download Desain <i class='fas fa-download'></i> </a></td>
 								</tr>";
 								$no++;
 							}
