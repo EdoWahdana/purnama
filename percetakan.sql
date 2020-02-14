@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
--- http://www.phpmyadmin.net
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 25, 2020 at 07:12 PM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Feb 14, 2020 at 10:23 AM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `percetakan`
@@ -26,13 +28,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
-CREATE TABLE IF NOT EXISTS `admin` (
-  `idAdmin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `admin` (
+  `idAdmin` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `hakAkses` varchar(50) NOT NULL,
-  PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `hakAkses` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
@@ -48,15 +49,14 @@ INSERT INTO `admin` (`idAdmin`, `username`, `password`, `hakAkses`) VALUES
 -- Table structure for table `chats`
 --
 
-CREATE TABLE IF NOT EXISTS `chats` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `chats` (
+  `id` int(15) NOT NULL,
   `time` datetime NOT NULL,
   `text` text NOT NULL,
   `sender` varchar(50) NOT NULL,
   `receiver` varchar(50) NOT NULL,
-  `stat` enum('0','1') NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `stat` enum('0','1') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `chats`
@@ -77,8 +77,8 @@ INSERT INTO `chats` (`id`, `time`, `text`, `sender`, `receiver`, `stat`) VALUES
 -- Table structure for table `dataundangan`
 --
 
-CREATE TABLE IF NOT EXISTS `dataundangan` (
-  `id_undangan` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dataundangan` (
+  `id_undangan` int(10) NOT NULL,
   `kdTransaksi` varchar(50) NOT NULL,
   `NamaPengantin` varchar(100) NOT NULL,
   `NamaOrtu_Pcwo` varchar(100) NOT NULL,
@@ -86,9 +86,8 @@ CREATE TABLE IF NOT EXISTS `dataundangan` (
   `JadwalAkad` varchar(100) NOT NULL,
   `Alamat` varchar(500) NOT NULL,
   `Hiburan` varchar(100) NOT NULL,
-  `TurutMengundang` varchar(500) NOT NULL,
-  PRIMARY KEY (`id_undangan`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+  `TurutMengundang` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dataundangan`
@@ -103,7 +102,20 @@ INSERT INTO `dataundangan` (`id_undangan`, `kdTransaksi`, `NamaPengantin`, `Nama
 (30, 'TRANS0000008', '', '', '', '', '', '', ''),
 (31, 'TRANS0000008', 'jj', 'kjk', 'jkj', 'k', 'jkj', 'kj', 'kj'),
 (32, 'TRANS0000008', 'iiuiu', 'l[pl', '[p[p', 'l[p', 'l[p', 'll', '['),
-(33, 'TRANS0000008', 'oij', 'ijio', 'jo', 'ijoi', 'joi', 'joi', 'jn');
+(33, 'TRANS0000008', 'oij', 'ijio', 'jo', 'ijoi', 'joi', 'joi', 'jn'),
+(34, 'TRANS0000009', '', '', '', '', '', '', ''),
+(35, 'TRANS0000009', 'Buku', 'Agus', 'Agusus', 'Besok', 'Kuningan', 'Dangdut', 'Biasalah'),
+(36, 'TRANS0000009', '', '', '', '', '', '', ''),
+(37, 'TRANS0000009', '', '', '', '', '', '', ''),
+(38, 'TRANS0000009', '', '', '', '', '', '', ''),
+(39, 'TRANS0000009', '', '', '', '', '', '', ''),
+(40, 'TRANS0000009', '', '', '', '', '', '', ''),
+(41, 'TRANS0000009', '', '', '', '', '', '', ''),
+(42, 'TRANS0000009', '', '', '', '', '', '', ''),
+(43, 'TRANS0000010', '', '', '', '', '', '', ''),
+(44, 'TRANS0000010', '', '', '', '', '', '', ''),
+(45, 'TRANS0000010', '', '', '', '', '', '', ''),
+(46, 'TRANS0000010', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -111,16 +123,15 @@ INSERT INTO `dataundangan` (`id_undangan`, `kdTransaksi`, `NamaPengantin`, `Nama
 -- Table structure for table `detailtransaksipoin`
 --
 
-CREATE TABLE IF NOT EXISTS `detailtransaksipoin` (
-  `idDetailTransaksiPoin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `detailtransaksipoin` (
+  `idDetailTransaksiPoin` int(11) NOT NULL,
   `kdTransaksiPoin` varchar(50) NOT NULL,
   `idKonsumen` varchar(50) NOT NULL,
   `idProduk` int(11) NOT NULL,
   `poin` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  PRIMARY KEY (`idDetailTransaksiPoin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `detailtransaksipoin`
@@ -135,11 +146,10 @@ INSERT INTO `detailtransaksipoin` (`idDetailTransaksiPoin`, `kdTransaksiPoin`, `
 -- Table structure for table `kategori`
 --
 
-CREATE TABLE IF NOT EXISTS `kategori` (
-  `idKategori` int(11) NOT NULL AUTO_INCREMENT,
-  `nmKategori` varchar(30) NOT NULL,
-  PRIMARY KEY (`idKategori`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+CREATE TABLE `kategori` (
+  `idKategori` int(11) NOT NULL,
+  `nmKategori` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kategori`
@@ -149,7 +159,55 @@ INSERT INTO `kategori` (`idKategori`, `nmKategori`) VALUES
 (1, 'Undangan Soft Cover'),
 (3, 'Undangan Hard Cover'),
 (4, 'Buku Yasin'),
-(5, 'Kartu Nama');
+(5, 'Kartu Nama'),
+(6, 'Spanduk');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `komentar`
+--
+
+CREATE TABLE `komentar` (
+  `idKomentar` int(11) NOT NULL,
+  `idProduk` int(11) NOT NULL,
+  `usernameKonsumen` varchar(100) DEFAULT NULL,
+  `isiKomentar` text NOT NULL,
+  `createdAt` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `komentar`
+--
+
+INSERT INTO `komentar` (`idKomentar`, `idProduk`, `usernameKonsumen`, `isiKomentar`, `createdAt`) VALUES
+(1, 10, 'agus', 'asdasd', '2020-01-29 14:43:12'),
+(2, 23, 'agus', 'Ini barang bagus sekali', '2020-01-29 14:45:13'),
+(3, 23, 'agus', 'nnhjhn', '2020-01-29 16:10:53'),
+(5, 26, 'agus', 'mmmmm', '2020-01-29 20:54:26'),
+(6, 26, 'agus', 'anjg', '2020-01-30 08:32:32'),
+(7, 27, 'agus', 'Ini tukunangn bagus', '2020-01-31 22:54:20'),
+(8, 27, 'agus', 'Ini jelek', '2020-01-31 22:55:05'),
+(9, 32, 'agus', 'Ini spanduk dengan logo uniku', '2020-02-03 10:08:12'),
+(10, 26, 'agus', 'asdasd', '2020-02-07 15:27:18'),
+(19, 22, 'agus', 'Bagus bgt desain yasinnya\n', '2020-02-07 15:58:05'),
+(20, 12, 'wira', 'Anjing', '2020-02-07 18:02:42'),
+(22, 32, 'agus', 'AJJA', '2020-02-10 18:06:03'),
+(23, 14, 'agus', 'ok', '2020-02-10 18:09:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `komentarPoin`
+--
+
+CREATE TABLE `komentarPoin` (
+  `idKomentar` int(11) NOT NULL,
+  `idProdukPoin` int(11) NOT NULL,
+  `usernameKonsumen` varchar(100) DEFAULT NULL,
+  `isiKomentar` text NOT NULL,
+  `createdAt` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -157,8 +215,8 @@ INSERT INTO `kategori` (`idKategori`, `nmKategori`) VALUES
 -- Table structure for table `konsumen`
 --
 
-CREATE TABLE IF NOT EXISTS `konsumen` (
-  `idKonsumen` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `konsumen` (
+  `idKonsumen` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `hakAkses` varchar(50) NOT NULL,
@@ -172,9 +230,8 @@ CREATE TABLE IF NOT EXISTS `konsumen` (
   `kab` varchar(50) NOT NULL,
   `provinsi` varchar(50) NOT NULL,
   `noHp` varchar(15) NOT NULL,
-  `poin` int(11) NOT NULL,
-  PRIMARY KEY (`idKonsumen`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+  `poin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `konsumen`
@@ -182,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `konsumen` (
 
 INSERT INTO `konsumen` (`idKonsumen`, `username`, `password`, `hakAkses`, `nama`, `gender`, `ttl`, `email`, `alamat`, `desa`, `kec`, `kab`, `provinsi`, `noHp`, `poin`) VALUES
 (1, 'aprian', '4fe8d05045161f447b575c3b29f61995', 'Konsumen', 'Dani Apriansyah', 'L', '1995-04-16', 'aprian@gmail.com', 'No. 77', 'Cirendang', 'Kuningan', 'Kuningan', 'Jawa Barat', '89660645681', 59),
-(2, 'agus', 'fdf169558242ee051cca1479770ebac3', 'Konsumen', 'Agus', 'L', '1999-08-11', 'agus@gmail.com', 'Jln. Raya Pangkalan', 'Susukan', 'Kuningan', 'Kuningan', 'Jawa Barat', '82121838838', 13),
+(2, 'agus', 'fdf169558242ee051cca1479770ebac3', 'Konsumen', 'Agus', 'L', '1999-08-11', 'agus@gmail.com', 'Jln. Raya Pangkalan', 'Susukan', 'Kuningan', 'Kuningan', 'Jawa Barat', '82121838838', 26),
 (3, 'wira', '6215f4770ee800ad5402bc02be783c26', 'Konsumen', 'wira', 'L', '1995-02-07', 'wira@gmail.com', 'tangerang', 'legok', 'Cigugur', 'Kuningan', 'Jawa Barat', '85561234321', 20),
 (4, 'indra', 'aff4b352312d5569903d88e0e68d3fbb', 'Konsumen', 'indra', 'L', '1996-07-31', 'indra@gmail.com', 'dusun wage rt 02 rw 04', 'ciomas', 'Kuningan', 'Kuningan', 'Jawa Barat', '85523697207', 10),
 (5, '12', 'c20ad4d76fe97759aa27a0c99bff6710', 'Konsumen', '12', 'L', '1992-07-08', 'jkajkjak@gmail.com', 'oaokkslak', 'alkslakl', 'Kuningan', 'Kuningan', 'Jawa Barat', '855234565421', 0),
@@ -195,15 +252,14 @@ INSERT INTO `konsumen` (`idKonsumen`, `username`, `password`, `hakAkses`, `nama`
 -- Table structure for table `kritik_saran`
 --
 
-CREATE TABLE IF NOT EXISTS `kritik_saran` (
-  `idKritik` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `kritik_saran` (
+  `idKritik` int(11) NOT NULL,
   `idKonsumen` varchar(50) NOT NULL,
   `thread` int(11) NOT NULL,
   `subjek` text NOT NULL,
   `isi` text NOT NULL,
-  `status` varchar(10) NOT NULL,
-  PRIMARY KEY (`idKritik`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+  `status` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kritik_saran`
@@ -219,11 +275,10 @@ INSERT INTO `kritik_saran` (`idKritik`, `idKonsumen`, `thread`, `subjek`, `isi`,
 -- Table structure for table `kurir`
 --
 
-CREATE TABLE IF NOT EXISTS `kurir` (
-  `idKurir` int(11) NOT NULL AUTO_INCREMENT,
-  `namaKurir` varchar(50) NOT NULL,
-  PRIMARY KEY (`idKurir`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+CREATE TABLE `kurir` (
+  `idKurir` int(11) NOT NULL,
+  `namaKurir` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kurir`
@@ -240,16 +295,15 @@ INSERT INTO `kurir` (`idKurir`, `namaKurir`) VALUES
 -- Table structure for table `ongkir`
 --
 
-CREATE TABLE IF NOT EXISTS `ongkir` (
-  `idOngkir` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ongkir` (
+  `idOngkir` int(11) NOT NULL,
   `idKurir` int(11) NOT NULL,
   `idOK` int(11) NOT NULL,
   `ongkir` int(11) NOT NULL,
   `kec` varchar(50) NOT NULL,
   `kab` varchar(50) NOT NULL,
-  `prov` varchar(50) NOT NULL,
-  PRIMARY KEY (`idOngkir`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+  `prov` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ongkir`
@@ -268,12 +322,11 @@ INSERT INTO `ongkir` (`idOngkir`, `idKurir`, `idOK`, `ongkir`, `kec`, `kab`, `pr
 -- Table structure for table `ongkirkurir`
 --
 
-CREATE TABLE IF NOT EXISTS `ongkirkurir` (
-  `idOK` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ongkirkurir` (
+  `idOK` int(11) NOT NULL,
   `idKurir` int(11) NOT NULL,
-  `namaOngkir` varchar(50) NOT NULL,
-  PRIMARY KEY (`idOK`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+  `namaOngkir` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ongkirkurir`
@@ -293,7 +346,7 @@ INSERT INTO `ongkirkurir` (`idOK`, `idKurir`, `namaOngkir`) VALUES
 -- Table structure for table `pengaturan`
 --
 
-CREATE TABLE IF NOT EXISTS `pengaturan` (
+CREATE TABLE `pengaturan` (
   `hargaPoin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -310,16 +363,15 @@ INSERT INTO `pengaturan` (`hargaPoin`) VALUES
 -- Table structure for table `pesan`
 --
 
-CREATE TABLE IF NOT EXISTS `pesan` (
-  `id_pesan` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pesan` (
+  `id_pesan` int(50) NOT NULL,
   `id_pengirim` int(50) NOT NULL,
   `id_penerima` int(50) NOT NULL,
   `tanggal` date NOT NULL,
   `subyek_pesan` varchar(500) NOT NULL,
   `isi_pesan` longtext NOT NULL,
-  `sudah_dibaca` enum('Belum','Sudah') NOT NULL,
-  PRIMARY KEY (`id_pesan`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `sudah_dibaca` enum('Belum','Sudah') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pesan`
@@ -335,17 +387,16 @@ INSERT INTO `pesan` (`id_pesan`, `id_pengirim`, `id_penerima`, `tanggal`, `subye
 -- Table structure for table `produk`
 --
 
-CREATE TABLE IF NOT EXISTS `produk` (
-  `idProduk` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `produk` (
+  `idProduk` int(11) NOT NULL,
   `idKategori` int(11) NOT NULL,
   `namaProduk` varchar(50) NOT NULL,
   `deskripsi` text NOT NULL,
   `harga` int(11) NOT NULL,
   `gambar` text NOT NULL,
   `stok` int(11) NOT NULL,
-  `berat` int(11) NOT NULL,
-  PRIMARY KEY (`idProduk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+  `berat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `produk`
@@ -360,9 +411,12 @@ INSERT INTO `produk` (`idProduk`, `idKategori`, `namaProduk`, `deskripsi`, `harg
 (21, 4, 'Buku Yasin Hard Cover Emas Timbul', 'desain buku yasin menggunakan cetakan warna emas pada covernya. Jika disentuh menggunakan tangan, tulisan kaligrafi pada cover atau nama akan terasa menonjol, buku yasin jenis ini juga biasa disebut cover timbul.\r\n\r\nDETAIL PRODUK :\r\n    Kertas isi HVS 70 gsm\r\n    Ukuran kertas 15,5 x 12 cm\r\n    Sampul tebal hardcover\r\n    Isi 192 halaman', 33700, '../gambar/produk/21/21.jpg', 989, 250),
 (22, 4, 'Buku Yasin Lengkap Hard Cover', 'Buku yasin jenis ini memiliki isi yang teba\r\n\r\nDETAIL PRODUK :\r\n    Surat Yasin dan bacaan tahlil arab, latin\r\n    Isi buku Yasin 192 halaman\r\n    Cover hot print warna emas / perak\r\n    Dimensi 16 x 12 cm', 34700, '../gambar/produk/22/22.jpeg', 1000, 500),
 (23, 4, 'Buku Yasin Silk CoveR', 'yang satu ini akan terasa licin di bagian covernya, punya material khusus yang membuatnya premium dan nyaman digenggam. Kesan premium dan elegan akan dirasakan oleh orang yang memiliki buku Yasin ini.\r\n\r\nDETAIL PRODUK :\r\n    Cover silk premium\r\n    Isi buku kertas licin 192 halaman\r\n    Desain cover dengan huruf timbul yang elegan', 26700, '../gambar/produk/23/23.jpg', 1000, 250),
-(24, 4, 'Buku Yasin Soft Cover', 'Cetak buku Yasin soft cover ini cocok untuk hadiah dan souvenir tahlilan untuk pengajian, peringatan 40 hari, peringatan 100 hari, dan peringatan 1000 hari.\r\n\r\nDETAIL PRODUK :\r\n    Isi cetak buku Yasin 192 halaman\r\n    Jenis kertas HVS\r\n    Ukuran cetak buku Yasin 15,5 x 12 cm', 26000, '../gambar/produk/24/24.jpg', 900, 250),
+(24, 4, 'Buku Yasin Soft Cover', 'Cetak buku Yasin soft cover ini cocok untuk hadiah dan souvenir tahlilan untuk pengajian, peringatan 40 hari, peringatan 100 hari, dan peringatan 1000 hari.\r\n\r\nDETAIL PRODUK :\r\n    Isi cetak buku Yasin 192 halaman\r\n    Jenis kertas HVS\r\n    Ukuran cetak buku Yasin 15,5 x 12 cm', 26000, '../gambar/produk/24/24.jpg', 898, 250),
 (25, 5, 'IDCARD001', 'Ukuran : 90 x 55 mm\r\nKertas : Artpaper 260 gsm\r\nCetak : 2Sisi\r\nFinishing : Laminasi \r\nFinishing : Potong Kotak ', 50000, '../gambar/produk/25/25.jpg', 1500, 150),
-(26, 5, 'IDCARD002', 'Ukuran : 90 x 55 mm\r\nKertas : Artpaper 260 gsm\r\nCetak : 2Sisi\r\nFinishing : Laminasi \r\nFinishing : Potong Kotak ', 50000, '../gambar/produk/26/26.png', 1494, 150);
+(26, 5, 'IDCARD002', 'Ukuran : 90 x 55 mm\r\nKertas : Artpaper 260 gsm\r\nCetak : 2Sisi\r\nFinishing : Laminasi \r\nFinishing : Potong Kotak ', 50000, '../gambar/produk/26/26.png', 1494, 150),
+(27, 6, 'Sampel Logo', 'Ini adalah sampel logo', 20000, '../gambar/produk/27/27.png', 20, 500),
+(31, 6, 'Spanduk Uniku', 'Ini adalah spanduk uniku', 20000, '../gambar/produk/31/31.png', 4, 4),
+(32, 6, 'Spanduk Uniku', 'Ini adalah spanduk uniku', 20000, '../gambar/produk/32/32.png', 3, 450);
 
 -- --------------------------------------------------------
 
@@ -370,17 +424,16 @@ INSERT INTO `produk` (`idProduk`, `idKategori`, `namaProduk`, `deskripsi`, `harg
 -- Table structure for table `produkpoin`
 --
 
-CREATE TABLE IF NOT EXISTS `produkpoin` (
-  `idProdukPoin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `produkpoin` (
+  `idProdukPoin` int(11) NOT NULL,
   `idKategori` int(11) NOT NULL,
   `namaProduk` varchar(50) NOT NULL,
   `deskripsi` text NOT NULL,
   `berat` int(11) NOT NULL,
   `stok` int(11) NOT NULL,
   `jumlahPoin` int(11) NOT NULL,
-  `gambar` text NOT NULL,
-  PRIMARY KEY (`idProdukPoin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+  `gambar` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `produkpoin`
@@ -397,14 +450,13 @@ INSERT INTO `produkpoin` (`idProdukPoin`, `idKategori`, `namaProduk`, `deskripsi
 -- Table structure for table `reqdesain`
 --
 
-CREATE TABLE IF NOT EXISTS `reqdesain` (
-  `idReqdesain` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `reqdesain` (
+  `idReqdesain` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `gambarDesain` text NOT NULL,
   `buktiBayar` text NOT NULL,
-  `keterangan` text NOT NULL,
-  PRIMARY KEY (`idReqdesain`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `keterangan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reqdesain`
@@ -412,7 +464,8 @@ CREATE TABLE IF NOT EXISTS `reqdesain` (
 
 INSERT INTO `reqdesain` (`idReqdesain`, `nama`, `gambarDesain`, `buktiBayar`, `keterangan`) VALUES
 (7, 'agus', '../gambar/UploadDesain/agus/agus.jpg', '../gambar/UploadDesain/agus/agus.png', 'ahahaha'),
-(8, 'agus', '../gambar/UploadDesain/agus/agus.png', '../gambar/UploadDesain/agus/agus.jpg', 'jjajasyaisyiay');
+(8, 'agus', '../gambar/UploadDesain/agus/agus.png', '../gambar/UploadDesain/agus/agus.jpg', 'jjajasyaisyiay'),
+(9, 'agus', '../gambar/UploadDesain/agus/agus.png', '../gambar/UploadDesain/agus/agus.png', 'Contoh Tukunang');
 
 -- --------------------------------------------------------
 
@@ -420,14 +473,13 @@ INSERT INTO `reqdesain` (`idReqdesain`, `nama`, `gambarDesain`, `buktiBayar`, `k
 -- Table structure for table `retur`
 --
 
-CREATE TABLE IF NOT EXISTS `retur` (
-  `idRetur` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `retur` (
+  `idRetur` int(11) NOT NULL,
   `idTransaksi` varchar(50) NOT NULL,
   `alasan` varchar(50) NOT NULL,
   `gambarBukti` text NOT NULL,
-  `statusRetur` varchar(50) NOT NULL,
-  PRIMARY KEY (`idRetur`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `statusRetur` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `retur`
@@ -442,34 +494,37 @@ INSERT INTO `retur` (`idRetur`, `idTransaksi`, `alasan`, `gambarBukti`, `statusR
 -- Table structure for table `tblorder`
 --
 
-CREATE TABLE IF NOT EXISTS `tblorder` (
-  `idOrder` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblorder` (
+  `idOrder` int(11) NOT NULL,
   `kdTransaksi` varchar(50) NOT NULL,
   `idKonsumen` varchar(50) NOT NULL,
   `idProduk` int(11) NOT NULL,
   `poin` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
-  PRIMARY KEY (`idOrder`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=47 ;
+  `desain` varchar(168) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `tblorder`
 --
 
-INSERT INTO `tblorder` (`idOrder`, `kdTransaksi`, `idKonsumen`, `idProduk`, `poin`, `qty`, `jumlah`) VALUES
-(24, 'TRANS0000001', 'indra', 10, 0, 100, 600000),
-(28, 'TRANS0000002', 'indra', 7, 0, 15, 120000),
-(30, 'TRANS0000004', 'admin', 14, 0, 1, 0),
-(31, 'TRANS0000005', 'indra', 26, 0, 3, 150000),
-(32, 'TRANS0000006', 'indra', 21, 0, 11, 370700),
-(36, 'TRANS0000007', 'indra', 24, 0, 100, 2600000),
-(39, 'TRANS0000008', 'indra', 12, 0, 200, 1740000),
-(41, 'TRANS0000008', 'indra', 10, 0, 1, 0),
-(43, 'TRANS0000008', 'indra', 23, 0, 1, 0),
-(44, 'TRANS0000008', 'indra', 10, 0, 1, 0),
-(45, 'TRANS0000008', 'indra', 10, 0, 1, 0),
-(46, 'TRANS0000008', 'indra', 10, 0, 1, 0);
+INSERT INTO `tblorder` (`idOrder`, `kdTransaksi`, `idKonsumen`, `idProduk`, `poin`, `qty`, `jumlah`, `desain`) VALUES
+(24, 'TRANS0000001', 'indra', 10, 0, 100, 600000, ''),
+(28, 'TRANS0000002', 'indra', 7, 0, 15, 120000, ''),
+(30, 'TRANS0000004', 'admin', 14, 0, 1, 0, ''),
+(31, 'TRANS0000005', 'indra', 26, 0, 3, 150000, ''),
+(32, 'TRANS0000006', 'indra', 21, 0, 11, 370700, ''),
+(36, 'TRANS0000007', 'indra', 24, 0, 100, 2600000, ''),
+(39, 'TRANS0000008', 'indra', 12, 0, 200, 1740000, ''),
+(41, 'TRANS0000008', 'indra', 10, 0, 1, 0, ''),
+(43, 'TRANS0000008', 'indra', 23, 0, 1, 0, ''),
+(44, 'TRANS0000008', 'indra', 10, 0, 1, 0, ''),
+(45, 'TRANS0000008', 'indra', 10, 0, 1, 0, ''),
+(46, 'TRANS0000008', 'indra', 10, 0, 1, 0, ''),
+(53, 'TRANS0000009', 'agus', 31, 0, 1, 20000, ''),
+(57, 'TRANS0000010', 'agus', 32, 0, 2, 40000, '57.png'),
+(59, 'TRANS0000010', 'agus', 24, 0, 2, 52000, '59.png');
 
 -- --------------------------------------------------------
 
@@ -477,25 +532,24 @@ INSERT INTO `tblorder` (`idOrder`, `kdTransaksi`, `idKonsumen`, `idProduk`, `poi
 -- Table structure for table `transaksi`
 --
 
-CREATE TABLE IF NOT EXISTS `transaksi` (
-  `idTransaksi` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `transaksi` (
+  `idTransaksi` int(11) NOT NULL,
   `tanggal` date NOT NULL,
   `jam` time NOT NULL,
   `idKonsumen` varchar(50) NOT NULL,
   `kdTransaksi` varchar(50) NOT NULL,
-  `idOngkir` int(11) NOT NULL,
-  `idKurir` int(11) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `desa` varchar(50) NOT NULL,
-  `kec` varchar(50) NOT NULL,
-  `kab` varchar(50) NOT NULL,
-  `prov` varchar(50) NOT NULL,
-  `pembayaran` int(11) NOT NULL,
-  `noResi` varchar(50) NOT NULL,
-  `buktiLampiran` text NOT NULL,
-  `status` varchar(40) NOT NULL,
-  PRIMARY KEY (`idTransaksi`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `idOngkir` int(11) DEFAULT NULL,
+  `idKurir` int(11) DEFAULT NULL,
+  `alamat` varchar(50) DEFAULT NULL,
+  `desa` varchar(50) DEFAULT NULL,
+  `kec` varchar(50) DEFAULT NULL,
+  `kab` varchar(50) DEFAULT NULL,
+  `prov` varchar(50) DEFAULT NULL,
+  `pembayaran` int(11) DEFAULT NULL,
+  `noResi` varchar(50) DEFAULT NULL,
+  `buktiLampiran` text DEFAULT NULL,
+  `status` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaksi`
@@ -508,7 +562,9 @@ INSERT INTO `transaksi` (`idTransaksi`, `tanggal`, `jam`, `idKonsumen`, `kdTrans
 (22, '2019-12-05', '02:38:33', 'indra', 'TRANS0000005', 7, 3, 'dusun wage rt 02 rw 04', 'ciomas', 'Kuningan', 'Kuningan', 'Jawa Barat', 0, '', '', 'ditolak'),
 (23, '2019-12-05', '02:45:56', 'indra', 'TRANS0000006', 0, 0, 'dusun wage rt 02 rw 04', 'ciomas', 'Kuningan', 'Kuningan', 'Jawa Barat', 370700, 'j', '../gambar/transaksi/TRANS0000006/TRANS0000006.jpg', 'dikirim'),
 (24, '2019-12-16', '05:10:44', 'indra', 'TRANS0000007', 7, 3, 'dusun wage rt 02 rw 04', 'ciomas', 'Kuningan', 'Kuningan', 'Jawa Barat', 2950000, 'iouys8', '../gambar/transaksi/TRANS0000007/TRANS0000007.jpg', 'dikirim'),
-(25, '0000-00-00', '00:00:00', 'indra', 'TRANS0000008', 7, 3, '', '', '', '', '', 0, '', '', 'keranjang');
+(25, '0000-00-00', '00:00:00', 'indra', 'TRANS0000008', 7, 3, '', '', '', '', '', 0, '', '', 'keranjang'),
+(29, '2020-02-01', '10:31:31', 'agus', 'TRANS0000009', 4, 1, 'Jln. Raya Pangkalan', 'Susukan', 'Kuningan', 'Kuningan', 'Jawa Barat', NULL, NULL, '../gambar/transaksi/TRANS0000009/TRANS0000009.png', 'proses'),
+(30, '2020-02-01', '18:01:11', 'agus', 'TRANS0000010', 4, 1, 'Jln. Raya Pangkalan', 'Susukan', 'Kuningan', 'Kuningan', 'Jawa Barat', NULL, NULL, NULL, 'proses');
 
 -- --------------------------------------------------------
 
@@ -516,8 +572,8 @@ INSERT INTO `transaksi` (`idTransaksi`, `tanggal`, `jam`, `idKonsumen`, `kdTrans
 -- Table structure for table `transaksipoin`
 --
 
-CREATE TABLE IF NOT EXISTS `transaksipoin` (
-  `idTransaksiPoin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `transaksipoin` (
+  `idTransaksiPoin` int(11) NOT NULL,
   `kdTransaksiPoin` varchar(50) NOT NULL,
   `idKonsumen` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
@@ -532,9 +588,8 @@ CREATE TABLE IF NOT EXISTS `transaksipoin` (
   `pembayaran` int(11) NOT NULL,
   `noResi` int(11) NOT NULL,
   `buktiLampiran` text NOT NULL,
-  `status` varchar(40) NOT NULL,
-  PRIMARY KEY (`idTransaksiPoin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `status` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaksipoin`
@@ -542,6 +597,255 @@ CREATE TABLE IF NOT EXISTS `transaksipoin` (
 
 INSERT INTO `transaksipoin` (`idTransaksiPoin`, `kdTransaksiPoin`, `idKonsumen`, `tanggal`, `jam`, `idOngkir`, `idKurir`, `alamat`, `desa`, `kec`, `kab`, `prov`, `pembayaran`, `noResi`, `buktiLampiran`, `status`) VALUES
 (1, 'TRANP0000001', 'indra', '2019-12-05', '02:47:57', 4, 2, 'dusun wage rt 02 rw 04', 'ciomas', 'Kuningan', 'Kuningan', 'Jawa Barat', 12000, 987654, '', 'dikirim');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`idAdmin`);
+
+--
+-- Indexes for table `chats`
+--
+ALTER TABLE `chats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dataundangan`
+--
+ALTER TABLE `dataundangan`
+  ADD PRIMARY KEY (`id_undangan`);
+
+--
+-- Indexes for table `detailtransaksipoin`
+--
+ALTER TABLE `detailtransaksipoin`
+  ADD PRIMARY KEY (`idDetailTransaksiPoin`);
+
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`idKategori`);
+
+--
+-- Indexes for table `komentar`
+--
+ALTER TABLE `komentar`
+  ADD PRIMARY KEY (`idKomentar`);
+
+--
+-- Indexes for table `komentarPoin`
+--
+ALTER TABLE `komentarPoin`
+  ADD PRIMARY KEY (`idKomentar`);
+
+--
+-- Indexes for table `konsumen`
+--
+ALTER TABLE `konsumen`
+  ADD PRIMARY KEY (`idKonsumen`);
+
+--
+-- Indexes for table `kritik_saran`
+--
+ALTER TABLE `kritik_saran`
+  ADD PRIMARY KEY (`idKritik`);
+
+--
+-- Indexes for table `kurir`
+--
+ALTER TABLE `kurir`
+  ADD PRIMARY KEY (`idKurir`);
+
+--
+-- Indexes for table `ongkir`
+--
+ALTER TABLE `ongkir`
+  ADD PRIMARY KEY (`idOngkir`);
+
+--
+-- Indexes for table `ongkirkurir`
+--
+ALTER TABLE `ongkirkurir`
+  ADD PRIMARY KEY (`idOK`);
+
+--
+-- Indexes for table `pesan`
+--
+ALTER TABLE `pesan`
+  ADD PRIMARY KEY (`id_pesan`);
+
+--
+-- Indexes for table `produk`
+--
+ALTER TABLE `produk`
+  ADD PRIMARY KEY (`idProduk`);
+
+--
+-- Indexes for table `produkpoin`
+--
+ALTER TABLE `produkpoin`
+  ADD PRIMARY KEY (`idProdukPoin`);
+
+--
+-- Indexes for table `reqdesain`
+--
+ALTER TABLE `reqdesain`
+  ADD PRIMARY KEY (`idReqdesain`);
+
+--
+-- Indexes for table `retur`
+--
+ALTER TABLE `retur`
+  ADD PRIMARY KEY (`idRetur`);
+
+--
+-- Indexes for table `tblorder`
+--
+ALTER TABLE `tblorder`
+  ADD PRIMARY KEY (`idOrder`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`idTransaksi`);
+
+--
+-- Indexes for table `transaksipoin`
+--
+ALTER TABLE `transaksipoin`
+  ADD PRIMARY KEY (`idTransaksiPoin`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `dataundangan`
+--
+ALTER TABLE `dataundangan`
+  MODIFY `id_undangan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT for table `detailtransaksipoin`
+--
+ALTER TABLE `detailtransaksipoin`
+  MODIFY `idDetailTransaksiPoin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `komentar`
+--
+ALTER TABLE `komentar`
+  MODIFY `idKomentar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `komentarPoin`
+--
+ALTER TABLE `komentarPoin`
+  MODIFY `idKomentar` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `konsumen`
+--
+ALTER TABLE `konsumen`
+  MODIFY `idKonsumen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `kritik_saran`
+--
+ALTER TABLE `kritik_saran`
+  MODIFY `idKritik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `kurir`
+--
+ALTER TABLE `kurir`
+  MODIFY `idKurir` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ongkir`
+--
+ALTER TABLE `ongkir`
+  MODIFY `idOngkir` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ongkirkurir`
+--
+ALTER TABLE `ongkirkurir`
+  MODIFY `idOK` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `pesan`
+--
+ALTER TABLE `pesan`
+  MODIFY `id_pesan` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `idProduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `produkpoin`
+--
+ALTER TABLE `produkpoin`
+  MODIFY `idProdukPoin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `reqdesain`
+--
+ALTER TABLE `reqdesain`
+  MODIFY `idReqdesain` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `retur`
+--
+ALTER TABLE `retur`
+  MODIFY `idRetur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblorder`
+--
+ALTER TABLE `tblorder`
+  MODIFY `idOrder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `idTransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `transaksipoin`
+--
+ALTER TABLE `transaksipoin`
+  MODIFY `idTransaksiPoin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
