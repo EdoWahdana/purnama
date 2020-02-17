@@ -279,7 +279,7 @@ $nmKategori = $data["nmKategori"];
 					if (stat == "kembali")
 						location.reload();
 					else
-						location.href = "keranjang.php";
+						location.href = "keranjang1.php";
 				} else {
 					$(".helper span").css("color", "red");
 					$(".helper span").html(respon.status);
