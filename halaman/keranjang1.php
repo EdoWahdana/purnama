@@ -23,7 +23,7 @@ if (mysqli_num_rows($query) > 0) {
 	<div class="container-fluid px-0">
 		<?php include("_menu.php"); ?>
 		<div class="konten">
-			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 85%; border-bottom: 5px solid teal;">
+			<div class="rounded-top bg-white shadow p-5 mx-auto my-5" style="width: 90%; border-bottom: 5px solid teal;">
 				<a href="utama.php" class="tombol tombol-teal mb-3"><i class="fas fa-chevron-circle-left"></i> Kembali</a>
 				<h4 class="mb-4">Keranjang Belanja</h4>
 				<div class="row mb-3">
@@ -96,15 +96,19 @@ if (mysqli_num_rows($query) > 0) {
 									</td>
 									<td>Rp " . number_format($totalHarga, 0, ".", ".") . "</td>";
 
-									// Menampilkan tombol upload jika desain masih kosong dan menampilkan gambar jika sudah terdapat data desain
-									if($data['desain'] == '' ||  $data['desain'] == null) {
-										echo "<td><a href='upload_desain.php?id=$data[idOrder]' class='tombol tombol-pale'><i class='fas fa-upload'></i></a></td>";
+									//Query untuk menampilkan gambar di keranjang
+									$gambarquery = mysqli_query($conn, "SELECT desain FROM gambardesain WHERE idOrder='$data[idOrder]'");
+									if(mysqli_num_rows($gambarquery) > 0) {
+										echo "<td>";
+										while($gambar = mysqli_fetch_assoc($gambarquery)) {
+											echo "<img class='img-fluid mr-2' width='80' src='../gambar/desainOrder/" .$gambar['desain']. "'>";
+										}
+										echo "</td>";
 									} else {
-										echo "<td><img class='img-fluid' width='100' src='../gambar/desainOrder/" .$data['desain']. "'></td>";
-									}
+										echo "<td><a href='upload_desain.php?id=$data[idOrder]' class='tombol tombol-pale'><i class='fas fa-upload'></i></a></td>";
+									}									
 									
-									echo "<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td>
-									</tr>";
+									echo "<td><button class='tombol tombol-red' name='hapus[]' id='$data[idOrder]'><i class='fas fa-trash-alt'></i></button></td></tr>";
 									$no++;
 								}
 							} else
@@ -194,6 +198,7 @@ if (mysqli_num_rows($query) > 0) {
 			updateOrder();
 		}
 	});
+	
 	
 	function cekNilai(qty) {
 		if (qty.val() < 1)

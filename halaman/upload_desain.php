@@ -26,17 +26,17 @@ include("../include/_koneksi.php");
 
 				<form enctype="multipart/form-data" id="formUpload">
 					<div class="row mb-3">
+					<p class="text-muted text-center">
+						*Upload gambar desain dan tulisan-tulisan yang akan dicantumkan ke dalam pesanan
+					</p>
 						<div class="col-lg-12">
-							<p class="text-muted text-center">
-								*Upload gambar desain dan tulisan-tulisan yang akan dicantumkan ke dalam pesanan
-							</p>
 							<label class="border text-center w-100" style="max-height: 300px; cursor: pointer;" id="pilihGambar">
 								<div class="py-5 text-muted">
 									<i class="fas fa-image fa-5x"></i>
 									<i class="fas fa-plus fa-2x" style="position: absolute;"></i>
 								</div>
 								<img style="max-height: 200px;" src="#" hidden>
-								<input type="file" name="gambar" id="gambar" hidden>
+								<input type="file" name="gambar[]" id="gambar" multiple hidden>
 							</label>
 						</div>
 						<input type="text" name="idOrder" id="idOrderText" hidden>
@@ -111,8 +111,9 @@ include("../include/_koneksi.php");
 					}
 				}, 
 				error: function(XMLHttpRequest, respon, error) {
-					$(".helper span").css("color", "red");
+					$(".helper span").css("color", "blue");
 					$(".helper span").html(error);
+
 				}
 			});
 		});

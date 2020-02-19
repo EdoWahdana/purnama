@@ -157,9 +157,19 @@ if (mysqli_num_rows($query) > 0) {
 								<td>" . konversiBerat($data["berat"]) . "</td>
 								<td>$data[qty]</td>
 								<td>Rp " . number_format($data["harga"], 0, ".", ".") . "</td>
-								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>
-								<td><img class='img-fluid' width='50' src='../gambar/desainOrder/" .$data['desain']. "'></td>
-								</tr>";
+								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>";
+
+								//Query untuk menampilkan gambar di keranjang
+								$gambarquery = mysqli_query($conn, "SELECT desain FROM gambardesain WHERE idOrder='$data[idOrder]'");
+								if(mysqli_num_rows($gambarquery) > 0) {
+									echo "<td>";
+									while($gambar = mysqli_fetch_assoc($gambarquery)) {
+										echo "<img class='img-fluid mr-2' width='80' src='../gambar/desainOrder/" .$gambar['desain']. "'>";
+									}
+									echo "</td>";
+								}
+
+								echo "</tr>";
 								$no++;
 							}
 							$totalOngkir = ceil($totalBerat / 1000) * $ongkosKirim;

@@ -12,7 +12,7 @@ elseif ($idKonsumen == "")
 elseif ($kdTransaksi == "")
 	$respon["status"] = "Kode transaksi belum terisi";
 else {
-	$query = mysqli_query($conn, "INSERT INTO tblorder VALUES(null, '$kdTransaksi', '$idKonsumen', '$idProduk', '0', '1', '0', '')");
+	$query = mysqli_query($conn, "INSERT INTO tblorder VALUES(null, '$kdTransaksi', '$idKonsumen', '$idProduk', '0', '1', '0')");
 	if ($query)
 		$respon["status"] = "Berhasil";
 	else

@@ -124,9 +124,19 @@ if (mysqli_num_rows($query) > 0) {
 								<td>" . konversiBerat($data["berat"]) . "</td>
 								<td>$data[qty]</td>
 								<td>Rp " . number_format($data["harga"], 0, ".", ".") . "</td>
-								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>
-								<td><a href='../gambar/desainOrder/$data[desain]' class='badge badge-success' download>Download Desain <i class='fas fa-download'></i> </a></td>
-								</tr>";
+								<td>Rp " . number_format($data["jumlah"], 0, ".", ".") . "</td>";
+
+								//Query untuk menampilkan tombol download gambar
+								$gambarquery = mysqli_query($conn, "SELECT desain FROM gambardesain WHERE idOrder='$data[idOrder]'");
+								if(mysqli_num_rows($gambarquery) > 0) {
+									echo "<td>";
+									while($gambar = mysqli_fetch_assoc($gambarquery)) {
+										echo "<small class='mx-3'><a href='../gambar/desainOrder/$gambar[desain]' class='badge badge-success' download>Download Desain <i class='fas fa-download'></i> </a></small>";
+									}
+									echo "</td>";
+								}
+
+								echo "</tr>";
 								$no++;
 							}
 							$totalOngkir = ceil($totalBerat / 1000) * $ongkosKirim;
@@ -178,12 +188,14 @@ if (mysqli_num_rows($query) > 0) {
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "";
 								} elseif ($_SESSION["akses"] == "Konsumen") {
 									$hiddenKonfirmasi = "hidden";
 									$hiddenTolak = "hidden";
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								}
 								break;
 								
@@ -194,12 +206,14 @@ if (mysqli_num_rows($query) > 0) {
 									$hiddenKirim = "";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								} elseif ($_SESSION["akses"] == "Konsumen") {
 									$hiddenKonfirmasi = "hidden";
 									$hiddenTolak = "hidden";
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								}
 								break;
 								
@@ -210,12 +224,14 @@ if (mysqli_num_rows($query) > 0) {
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								} elseif ($_SESSION["akses"] == "Konsumen") {
 									$hiddenKonfirmasi = "hidden";
 									$hiddenTolak = "hidden";
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								}
 								break;
 								
@@ -226,12 +242,14 @@ if (mysqli_num_rows($query) > 0) {
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "hidden";
+									$hiddenDesain = "hidden";
 								} elseif ($_SESSION["akses"] == "Konsumen") {
 									$hiddenKonfirmasi = "hidden";
 									$hiddenTolak = "hidden";
 									$hiddenKirim = "hidden";
 									$hiddenTerima = "hidden";
 									$hiddenRetur = "";
+									$hiddenDesain = "hidden";
 								}
 								break;
 								
@@ -241,8 +259,14 @@ if (mysqli_num_rows($query) > 0) {
 								$hiddenKirim = "hidden";
 								$hiddenTerima = "hidden";
 								$hiddenRetur = "hidden";
+								$hiddenDesain = "hidden";
 						}
 						?>
+
+						<button type="button" class="tombol tombol-pale text-center" id="tombolUpload" <?php echo $hiddenDesain; ?>>Upload Desain</button>
+
+						<hr class="my-3">
+
 						<button type="button" class="tombol tombol-teal" id="tombolKonfirmasi" <?php echo $hiddenKonfirmasi; ?>>Konfirmasi</button>
 						<button type="button" class="tombol tombol-red" id="tombolTolak" <?php echo $hiddenTolak; ?>>Tolak</button>
 						<button type="button" class="tombol tombol-teal" id="tombolKirim" <?php echo $hiddenKirim; ?>>Kirim</button>
