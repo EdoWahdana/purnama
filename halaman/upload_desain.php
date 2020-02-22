@@ -35,10 +35,10 @@ include("../include/_koneksi.php");
 									<i class="fas fa-image fa-5x"></i>
 									<i class="fas fa-plus fa-2x" style="position: absolute;"></i>
 								</div>
-								<img style="max-height: 200px;" src="#" hidden>
 								<input type="file" name="gambar[]" id="gambar" multiple hidden>
 								<input type="text" name="idOrder" id="idOrderText" hidden>
 							</label>
+							<div id="preview-image"></div>
 						</div>
 						
 					</div>
@@ -78,18 +78,27 @@ include("../include/_koneksi.php");
 		$("#gambar").click();
 	});
 
-	$("#gambar").on("change", function() {
-		if (this.files && this.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$("#pilihGambar img").prop("src", e.target.result);
-				$("#pilihGambar img").prop("hidden", false);
-				$("#pilihGambar div").prop("hidden", true);
+	//Fungsi untuk menampilkan gambar yang telah dipilih 
+		var imagesPreview = function(input, placeToPreview) {
+			if(input.files) {
+				var filesAmount = input.files.length;
+
+				for(i=0; i<filesAmount; i++) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						$($.parseHTML("<img class='img-thumbnail mx-3' width='250'>")).attr("src", e.target.result).appendTo(placeToPreview);
+					}
+
+					reader.readAsDataURL(input.files[i]);
+				}
 			}
-			reader.readAsDataURL(this.files[0]);
-			console.log(this.files[0]);
-		}
+		};
+
+	$("#gambar").on("change", function() {
+		imagesPreview(this, $('#preview-image'));
+		$('#pilihGambar').attr('hidden', true);
 	});
+
 
 	$("#btnUpload").on("click", function() {
 		$("#formUpload").submit( function(e) {
