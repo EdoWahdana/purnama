@@ -248,6 +248,8 @@ if (mysqli_num_rows($query) > 0) {
 						}
 						?>
 
+						<hr style="height:1px;border:none;color:#000;background-color:#000;" <?php echo $hiddenDesain; ?>/>
+
 						<p <?php echo $hiddenDesain; ?>> *Disarankan upload desain satu persatu </p>
 
 						<div class="row mb-5">
@@ -262,10 +264,10 @@ if (mysqli_num_rows($query) > 0) {
 													<i class="fas fa-plus fa-2x" style="position: absolute;"></i><br>
 													<span>Upload Desain yang telah dibuat</span>
 												</div>
-												<img style="max-height: 200px;" src="#" hidden>
 												<input type="file" name="gambar[]" id="gambar" multiple hidden>
 												<input type="text" name="kdTransaksi" id="kdTransaksiText" hidden>
 											</label>
+											<div id="preview-image"></div>
 										</div>
 									</div>
 				                    <div class="row text-center">
@@ -281,15 +283,18 @@ if (mysqli_num_rows($query) > 0) {
 
 							<div class="col-6" id="col-gallery" <?php echo $hiddenDesain; ?>>
 						        <div class="text-center" id="gallery">
-						        	<!-- Query untuk menampilkan gambar berdasarkan KDTRANSAKSI -->
-									<?php 
-										$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
-											if(mysqli_num_rows($queryDesainAdmin) > 0) {
-												while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
-													echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='150px' height='100px' style='margin-top:15px; padding:8px; border:1px solid #ccc;' />";
+						        	<div class="jumbotron">
+							        	<p class="h5 text-muted">DESAIN YANG TELAH DIUPLOAD</p>
+							        	<!-- Query untuk menampilkan gambar berdasarkan KDTRANSAKSI -->
+										<?php 
+											$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
+												if(mysqli_num_rows($queryDesainAdmin) > 0) {
+													while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
+														echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='150px' height='100px' style='margin:15px 15px 0 0; padding:8px; border:1px solid #ccc;' />";
+													}
 												}
-											}
-									?>						        	
+										?>					
+									</div>	        	
 						        </div>
 							</div>
 						</div>
@@ -388,18 +393,25 @@ if (mysqli_num_rows($query) > 0) {
 		$("#gambar").click();
 	});
 
-	//Dan saat input type file dengan id gambar menerima gambar,lakukan fungsi berikut ini
-	$("#gambar").on("change", function() {
-		if (this.files && this.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$("#pilihGambar img").prop("src", e.target.result);
-				$("#pilihGambar img").prop("hidden", false);
-				$("#pilihGambar div").prop("hidden", true);
+	//Fungsi untuk menampilkan gambar yang telah dipilih 
+		var imagesPreview = function(input, placeToPreview) {
+			if(input.files) {
+				var filesAmount = input.files.length;
+
+				for(i=0; i<filesAmount; i++) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						$($.parseHTML("<img class='img-thumbnail mx-2' width='200'>")).attr("src", e.target.result).appendTo(placeToPreview);
+					}
+
+					reader.readAsDataURL(input.files[i]);
+				}
 			}
-			reader.readAsDataURL(this.files[0]);
-			console.log(this.files[0]);
-		}
+		};
+
+	$("#gambar").on("change", function() {
+		imagesPreview(this, $('#preview-image'));
+		$('#pilihGambar').attr('hidden', true);
 	});
 
 	//Fungsi untuk melakukan upload saat button UPload Desain diklik

@@ -167,22 +167,29 @@ if (mysqli_num_rows($query) > 0) {
 
 				<p class="text-center text-muted h2 mb-3"> DESAIN YANG TELAH DIBUAT  </p>
 
-				<div class="row">					
-					<div class="col" id="col-gallery">
-						<div class="text-center" id="gallery">
-							<!-- Query untuk menampilkan gambar berdasarkan KDTRANSAKSI -->
-							<?php 
-								$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
-								if(mysqli_num_rows($queryDesainAdmin) > 0) {
-									while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
-										echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='300px' height='200px' class='img-thumbnail mx-3 pb-3 pt-3' />";
-									}
-								} else {
-									echo "<p class='text-center text-muted mb-3'> *Belum ada desain yang dibuat</p>";	
-								}
-							?>				        
-				        </div>
-					</div>					
+				<div class="row">								
+					<!-- Query untuk menampilkan gambar berdasarkan KDTRANSAKSI -->
+					<?php 
+						$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
+						if(mysqli_num_rows($queryDesainAdmin) > 0) {
+							while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
+								echo "
+								<div class='col-lg-4  text-center'>
+									<div class='card' style='width: 18rem;'>
+									  <img class='card-img-top img-fluid img-thumbnail' src='../gambar/desainAdmin/$desainAdmin[desain]' >
+									  <div class='card-body'>
+									    <a href='' class='tombol tombol-teal'> Beri Masukan </a>
+									  </div>
+									</div>
+								</div>
+								";
+								//echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='300px' height='200px' class='img-thumbnail mx-3 pb-3 pt-3' /> ";
+								//echo "<a href='' class='tombol tombol-teal mt-2'> Beri Masukan </a>";
+							}
+						} else {
+							echo "<p class='text-center text-muted mb-3'> *Belum ada desain yang dibuat</p>";	
+						}
+					?>				        			
 				</div>
 		</div>
 		<?php include("_footer.php"); ?>
@@ -207,52 +214,5 @@ if (mysqli_num_rows($query) > 0) {
 	var kdTransaksi = $.urlParam("id");
 	$("#kdTransaksiText").val(kdTransaksi);
 
-	//Saat klik div pilihGambar akan melakukan klik pada input type file juga
-	$("#pilihGambar").on("click", function() {
-		$("#gambar").click();
-	});
-
-	//Dan saat input type file dengan id gambar menerima gambar,lakukan fungsi berikut ini
-	$("#gambar").on("change", function() {
-		if (this.files && this.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$("#pilihGambar img").prop("src", e.target.result);
-				$("#pilihGambar img").prop("hidden", false);
-				$("#pilihGambar div").prop("hidden", true);
-			}
-			reader.readAsDataURL(this.files[0]);
-			console.log(this.files[0]);
-		}
-	});
-
-	//Fungsi untuk melakukan upload saat button UPload Desain diklik
-	$("#btnUpload").on("click", function() {
-		$("#formUpload").submit( function(e) {
-			e.preventDefault();
-			var formData = new FormData(this);
-			$.ajax({
-				url: "../include/uploadDesainAdmin.php",
-				type: "POST",
-				data: formData,
-				contentType: false,
-				cache: false,
-				processData: false,
-				dataType: "JSON",
-				success: function(respon) {
-					if(respon.status == "Berhasil") {
-						window.location.reload();
-					} else {
-						$(".helper span").css("color", "red");
-						$(".helper span").html(respon.status);
-					}
-				}, 
-				error: function(XMLHttpRequest, respon, error) {
-					$(".helper span").css("color", "blue");
-					$(".helper span").html(error);
-
-				}
-			});
-		});
-	});
+	
 </script>

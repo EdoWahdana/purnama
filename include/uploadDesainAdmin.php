@@ -34,11 +34,13 @@ foreach($_FILES["gambar"]["name"] as $key=>$val) {
 
 	if($valid) {
 		
+		$date = new DateTime();
+
 		$targetFolder = "../gambar/desainAdmin/";
 		$targetFile = $targetFolder . basename($_FILES["gambar"]["name"][$key]);
 		$tipeGambar = pathinfo($targetFile, PATHINFO_EXTENSION);
-		$namaGambar = $targetFolder . $kdTransaksi . "_" . $count . "." . $tipeGambar;
-		$namaGambarTanpaFolder = $kdTransaksi . "_" . $count . "." . $tipeGambar; 
+		$namaGambar = $targetFolder . $date->format('Ymd_His') . $count . "." . $tipeGambar;
+		$namaGambarTanpaFolder = $date->format('Ymd_His') . $count . "." . $tipeGambar; 
 
 			if (move_uploaded_file($_FILES["gambar"]["tmp_name"][$key], $namaGambar)) {
 				$insertDesain = mysqli_query($conn, "INSERT INTO desainadmin (kdTransaksi, desain) VALUES ('$kdTransaksi', '$namaGambarTanpaFolder')");
