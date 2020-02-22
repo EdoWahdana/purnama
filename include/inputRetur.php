@@ -10,16 +10,16 @@ if ($kdTransaksi == "")
 elseif ($alasan == "")
 	$respon["status"] = "Isi alasan terlebih dahulu";
 else {
-	if ($_FILES["gambar"]["error"] == 4) {
+	if ($_FILES["gambarRetur"]["error"] == 4) {
 		$valid = false;
 		$respon["status"] = "Pilih gambar terlebih dahulu";
 	}
-	if ($_FILES["gambar"]["error"] == 1) {
+	if ($_FILES["gambarRetur"]["error"] == 1) {
 		$valid = false;
 		$respon["status"] = "Ukuran gambar terlalu besar, maksimal 2MB";
 	}
-	if ($_FILES["gambar"]["error"] == 0) {
-		$cekGambar = getimagesize($_FILES["gambar"]["tmp_name"]);
+	if ($_FILES["gambarRetur"]["error"] == 0) {
+		$cekGambar = getimagesize($_FILES["gambarRetur"]["tmp_name"]);
 		if($cekGambar !== false) {
 			
 		} else {
@@ -37,11 +37,11 @@ else {
 				if (!file_exists("../gambar/retur/$idBaru"))
 					mkdir("../gambar/retur/$idBaru", 0777, true);
 				$targetFolder = "../gambar/retur/$idBaru/";
-				$targetFile = $targetFolder . basename($_FILES["gambar"]["name"]);
+				$targetFile = $targetFolder . basename($_FILES["gambarRetur"]["name"]);
 				$tipeGambar = pathinfo($targetFile, PATHINFO_EXTENSION);
 				$namaGambar = $targetFolder . $idBaru . "." . $tipeGambar;
 				
-				if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $namaGambar)) {
+				if (move_uploaded_file($_FILES["gambarRetur"]["tmp_name"], $namaGambar)) {
 					$query = mysqli_query($conn, "UPDATE retur SET gambarBukti='$namaGambar' WHERE idRetur='$idBaru'");
 					if ($query)
 						$respon["status"] = "Berhasil";

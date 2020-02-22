@@ -37,9 +37,10 @@ include("../include/_koneksi.php");
 								</div>
 								<img style="max-height: 200px;" src="#" hidden>
 								<input type="file" name="gambar[]" id="gambar" multiple hidden>
+								<input type="text" name="idOrder" id="idOrderText" hidden>
 							</label>
 						</div>
-						<input type="text" name="idOrder" id="idOrderText" hidden>
+						
 					</div>
                     <div class="row text-center">
 						<div class="col-lg-12">

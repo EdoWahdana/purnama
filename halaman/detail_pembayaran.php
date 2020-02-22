@@ -161,22 +161,7 @@ if (mysqli_num_rows($query) > 0) {
 				?>
 				<p>Nomor Resi: <?php echo $noResi; ?></p>
 				<p>Jasa Pengiriman: <?php echo "$namaKurir - $namaOngkir (Rp " . number_format($ongkosKirim, 0, ".", ".") . "/kg)"; ?></p>
-				<label class="border text-center w-100">
-					<?php
-					if ($buktiLampiran == "") {
-						$hiddenDiv = "";
-						$hiddenImg = "hidden";
-					} else {
-						$hiddenDiv = "hidden";
-						$hiddenImg = "";
-					}
-					?>
-					<div class="py-5 text-muted" <?php echo $hiddenDiv; ?>>
-						<i class="fas fa-image fa-5x"></i><br>
-						<span>Tidak Ada Bukti Pembayaran</span>
-					</div>
-					<img class="w-100" src="<?php echo $buktiLampiran; ?>" <?php echo $hiddenImg; ?>>
-				</label>
+				
 				<div class="row">
 					<div class="col">
 						<?php
@@ -263,9 +248,72 @@ if (mysqli_num_rows($query) > 0) {
 						}
 						?>
 
-						<button type="button" class="tombol tombol-pale text-center" id="tombolUpload" <?php echo $hiddenDesain; ?>>Upload Desain</button>
+						<p <?php echo $hiddenDesain; ?>> *Disarankan upload desain satu persatu </p>
 
-						<hr class="my-3">
+						<div class="row mb-5">
+							<div class="col-6">
+								<!-- Form untuk upload gambar yang telah dibuat oleh admin -->
+								<form enctype="multipart/form-data" id="formUpload" <?php echo $hiddenDesain; ?>>
+									<div class="row mb-3">
+										<div class="col-lg-12">
+											<label class="border text-center w-100" style="max-height: 300px; cursor: pointer;" id="pilihGambar">
+												<div class="py-5 text-muted">
+													<i class="fas fa-upload fa-5x"></i>
+													<i class="fas fa-plus fa-2x" style="position: absolute;"></i><br>
+													<span>Upload Desain yang telah dibuat</span>
+												</div>
+												<img style="max-height: 200px;" src="#" hidden>
+												<input type="file" name="gambar[]" id="gambar" multiple hidden>
+												<input type="text" name="kdTransaksi" id="kdTransaksiText" hidden>
+											</label>
+										</div>
+									</div>
+				                    <div class="row text-center">
+										<div class="col-lg-12">
+											<div class="helper text-center my-3" style="display: inline-block;">
+												<span></span>
+											</div>
+											<button type="submit" class="tombol tombol-pale text-center" id="tombolUpload">Upload Desain</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<div class="col-6" id="col-gallery" <?php echo $hiddenDesain; ?>>
+						        <div class="text-center" id="gallery">
+						        	<!-- Query untuk menampilkan gambar berdasarkan KDTRANSAKSI -->
+									<?php 
+										$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
+											if(mysqli_num_rows($queryDesainAdmin) > 0) {
+												while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
+													echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='150px' height='100px' style='margin-top:15px; padding:8px; border:1px solid #ccc;' />";
+												}
+											}
+									?>						        	
+						        </div>
+							</div>
+						</div>
+
+						<hr style="height:1px;border:none;color:#000;background-color:#000;" <?php echo $hiddenDesain; ?>/>
+
+						<label class="border text-center w-100" <?php echo $hiddenDesain; ?>>
+							<?php
+							if ($buktiLampiran == "") {
+								$hiddenDiv = "";
+								$hiddenImg = "hidden";
+							} else {
+								$hiddenDiv = "hidden";
+								$hiddenImg = "";
+							}
+							?>
+							<div class="py-5 text-muted" <?php echo $hiddenDiv; ?>>
+								<i class="fas fa-image fa-5x"></i><br>
+								<span>Tidak Ada Bukti Pembayaran dari Konsumen</span>
+							</div>
+							<img class="w-100" src="<?php echo $buktiLampiran; ?>" <?php echo $hiddenImg; ?>>
+						</label>
+
+						<hr style="height:1px;border:none;color:#000;background-color:#000;" <?php echo $hiddenDesain; ?>/>
 
 						<button type="button" class="tombol tombol-teal" id="tombolKonfirmasi" <?php echo $hiddenKonfirmasi; ?>>Konfirmasi</button>
 						<button type="button" class="tombol tombol-red" id="tombolTolak" <?php echo $hiddenTolak; ?>>Tolak</button>
@@ -294,14 +342,14 @@ if (mysqli_num_rows($query) > 0) {
 						<form enctype="multipart/form-data" id="formRetur">
 							<label for="alasan">Alasan</label>
 							<textarea class="form-control" name="alasan" id="alasan" rows="5" placeholder="Berikan alasan retur"></textarea>
-							<label class="border text-center w-100" style="cursor: pointer;" id="pilihGambar">
+							<label class="border text-center w-100" style="cursor: pointer;" id="pilihGambarRetur">
 								<div class="py-5 text-muted">
 									<i class="fas fa-image fa-5x"></i>
 									<i class="fas fa-plus fa-2x" style="position: absolute;"></i><br>
 									<span>Upload Bukti</span>
 								</div>
 								<img class="w-100" src="#" hidden>
-								<input type="file" name="gambar" id="gambar" hidden>
+								<input type="file" name="gambarRetur" id="gambarRetur" hidden>
 							</label>
 							<button type="submit" class="tombol tombol-teal" id="submitRetur">Submit</button>
 							<div class="helperRetur" style="display: inline-block;">
@@ -324,6 +372,68 @@ if (mysqli_num_rows($query) > 0) {
 </html>
 
 <script>
+
+	// Fungsi untuk mengambil value dari parameten URL
+	$.urlParam = function(paramName) {
+		var result = new RegExp('[\?&]' + paramName + '=([^&#]*)').exec(window.location.href);
+		return result[1] || 0;
+	}
+
+	//Membuat variabel untuk menampung idOrder pada parameter URL
+	var kdTransaksi = $.urlParam("id");
+	$("#kdTransaksiText").val(kdTransaksi);
+
+	//Saat klik div pilihGambar akan melakukan klik pada input type file juga
+	$("#pilihGambar").on("click", function() {
+		$("#gambar").click();
+	});
+
+	//Dan saat input type file dengan id gambar menerima gambar,lakukan fungsi berikut ini
+	$("#gambar").on("change", function() {
+		if (this.files && this.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$("#pilihGambar img").prop("src", e.target.result);
+				$("#pilihGambar img").prop("hidden", false);
+				$("#pilihGambar div").prop("hidden", true);
+			}
+			reader.readAsDataURL(this.files[0]);
+			console.log(this.files[0]);
+		}
+	});
+
+	//Fungsi untuk melakukan upload saat button UPload Desain diklik
+	$("#tombolUpload").on("click", function() {
+		$("#formUpload").submit( function(e) {
+			e.preventDefault();
+			var formData = new FormData(this);
+			$.ajax({
+				url: "../include/uploadDesainAdmin.php",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				cache: false,
+				processData: false,
+				dataType: "JSON",
+				success: function(respon) {
+					if(respon.status == "Berhasil") {
+						window.location.reload();
+					} else {
+						$(".helper span").css("color", "red");
+						$(".helper span").html(respon.status);
+					}
+				}, 
+				error: function(XMLHttpRequest, respon, error) {
+					$(".helper span").css("color", "blue");
+					$(".helper span").html(error);
+
+				}
+			});
+		});
+	});
+
+
+
 	$("#tombolKonfirmasi").on("click", function() {
 		$("button").prop("disabled", true);
 		$(".helper div").prop("hidden", false);
@@ -349,6 +459,9 @@ if (mysqli_num_rows($query) > 0) {
 	$("#tombolRetur").on("click", function() {
 		$(".formRetur").prop("hidden", false);
 	});
+	$("#tombolUpload").on("click", function() {
+
+	});
 	$("#submitKirim").on("click", function() {
 		$("button").prop("disabled", true);
 		updateTransaksi("noResi", $("#noResi").val());
@@ -360,17 +473,17 @@ if (mysqli_num_rows($query) > 0) {
 		$(".helperRetur span").html("");
 		inputRetur();
 	});
-	$("#pilihGambar").on("click", function() {
-		$("#gambar").click();
+	$("#pilihGambarRetur").on("click", function() {
+		$("#gambarRetur").click();
 	});
 	
-	$("#gambar").on("change", function() {
+	$("#gambarRetur").on("change", function() {
 		if (this.files && this.files[0]) {
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				$("#pilihGambar img").prop("src", e.target.result);
-				$("#pilihGambar img").prop("hidden", false);
-				$("#pilihGambar div").prop("hidden", true);
+				$("#pilihGambarRetur img").prop("src", e.target.result);
+				$("#pilihGambarRetur img").prop("hidden", false);
+				$("#pilihGambarRetur div").prop("hidden", true);
 			}
 			reader.readAsDataURL(this.files[0]);
 		}

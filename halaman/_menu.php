@@ -44,8 +44,8 @@
 			<?php if ($_SESSION["login"] and $_SESSION["akses"] == "Konsumen" or $_SESSION["akses"] == "") { ?>
 			<li><a href="kontak.php" class="menu-list"><i class="fas fa-inbox"></i><span> Kontak</span></a></li>
 			<?php } ?>
-			<?php if ($_SESSION["login"] and $_SESSION["akses"] == "Konsumen" or $_SESSION["akses"] == "") { ?>
-			<li><a href="kontak.php" class="menu-list"><i class="fas fa-money"></i><span> Transaksi</span></a></li>							
+			<?php if ($_SESSION["login"] and $_SESSION["akses"] == "Konsumen") { ?>
+			<li><a href="transaksi_konsumen.php" class="menu-list"><i class="fas fa-money"></i><span> Transaksi</span></a></li>							
 			<?php } ?>
 			
 		
