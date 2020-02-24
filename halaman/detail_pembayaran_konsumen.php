@@ -178,7 +178,7 @@ if (mysqli_num_rows($query) > 0) {
 									<div class='card' style='width: 18rem;'>
 									  <img class='card-img-top img-fluid img-thumbnail' src='../gambar/desainAdmin/$desainAdmin[desain]' >
 									  <div class='card-body'>
-									    <a href='' class='tombol tombol-teal'> Beri Masukan </a>
+									    <a href='masukan_desain_admin.php?id=$desainAdmin[idDesainAdmin]' class='tombol tombol-teal'> Beri Masukan </a>
 									  </div>
 									</div>
 								</div>

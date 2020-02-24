@@ -290,7 +290,11 @@ if (mysqli_num_rows($query) > 0) {
 											$queryDesainAdmin = mysqli_query($conn, "SELECT * FROM desainadmin WHERE kdTransaksi='$id'");
 												if(mysqli_num_rows($queryDesainAdmin) > 0) {
 													while($desainAdmin = mysqli_fetch_assoc($queryDesainAdmin)) {
-														echo "<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='150px' height='100px' style='margin:15px 15px 0 0; padding:8px; border:1px solid #ccc;' />";
+														echo "
+															<a href='masukan_desain_admin.php?id=$desainAdmin[idDesainAdmin]'>
+																<img src='../gambar/desainAdmin/$desainAdmin[desain]' width='150px' height='100px' style='margin:15px 15px 0 0; padding:8px; border:1px solid #ccc;' />
+															</a>
+															";
 													}
 												}
 										?>					
